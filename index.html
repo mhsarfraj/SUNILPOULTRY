@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b5265">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Sunil Poultry</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--ink:#102b3a;--muted:#5b7280;--line:#dbe7ee;--bg:#f2f7fb;--card:#fff;--teal:#087f8c;--teal2:#0f9fae;--blue:#137bb0;--deep:#0b5265;--mint:#e1f6f8;--good:#168a52;--goodbg:#e3f8eb;--warn:#b86e00;--warnbg:#fff3d6;--bad:#c63a47;--badbg:#fde8ea;--r:16px;--shadow:0 4px 16px rgba(22,64,88,.08);--top:58px;--nav:64px}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;overflow-x:hidden;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans",sans-serif;background:var(--bg);color:var(--ink);font-size:15px;line-height:1.45}
+button,input,select,textarea{font:inherit;color:inherit}
+h1,h2,h3,p{margin:0}
+.hidden{display:none!important}
+.muted{color:var(--muted)}.small{font-size:12.5px}.b{font-weight:700}
+.row{display:flex;align-items:center;gap:10px}.between{justify-content:space-between}.wrap{flex-wrap:wrap}.grow{flex:1;min-width:0}
+.gap{height:14px}
+
+/* buttons */
+.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:44px;text-decoration:none;transition:transform .08s,opacity .15s}
+.btn:active{transform:scale(.97)}.btn[disabled]{opacity:.55;pointer-events:none}
+.btn-primary{background:linear-gradient(135deg,var(--teal),var(--blue));color:#fff;box-shadow:0 4px 12px rgba(8,127,140,.25)}
+.btn-soft{background:var(--mint);color:#075d70}
+.btn-ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.btn-good{background:var(--good);color:#fff}.btn-bad{background:var(--badbg);color:var(--bad)}
+.btn-wa{background:#d9f8e5;color:#08783b;border:1px solid #b5eacb}
+.btn-sm{min-height:36px;padding:7px 12px;font-size:13px;border-radius:10px}
+.btn-block{width:100%}
+.icon-btn{width:42px;height:42px;border-radius:12px;border:0;background:transparent;font-size:22px;cursor:pointer;display:grid;place-items:center;color:var(--deep)}
+.icon-btn:active{background:var(--mint)}
+
+/* forms */
+.field{margin-bottom:14px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:#33505f}
+.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px 13px;background:#fff;font-size:16px;min-height:48px}
+.field textarea{min-height:76px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(8,127,140,.15)}
+.field .hint{font-size:12px;color:var(--muted);margin-top:5px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.pw{position:relative}.pw input{padding-right:52px}.pw button{position:absolute;right:4px;top:4px;height:40px;width:44px;border:0;background:transparent;font-size:18px;cursor:pointer}
+.stepper{display:flex;gap:8px;width:100%}.stepper input{flex:1 1 0;min-width:0;width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px 8px;background:#fff;min-height:50px;text-align:center;font-size:20px;font-weight:800}.stepper input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(8,127,140,.15)}
+.stepper button{width:50px;flex-shrink:0;border:1.5px solid var(--line);background:#fff;border-radius:12px;font-size:24px;font-weight:700;color:var(--teal);cursor:pointer}
+.stepper button:active{background:var(--mint)}
+
+/* cards & layout */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:16px}
+.card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.card-h h3{font-size:16px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.page-head h1{font-size:24px;line-height:1.2}.page-head p{color:var(--muted);font-size:14px;margin-top:2px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px;box-shadow:var(--shadow);min-width:0}
+.stat span{display:block;font-size:12px;color:var(--muted);font-weight:600}.stat b{display:block;font-size:26px;line-height:1.15;margin:5px 0 2px;overflow-wrap:anywhere}.stat small{color:var(--muted);font-size:12px}
+.stat.bad b{color:var(--bad)}.stat.good b{color:var(--good)}
+.cols{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;align-items:start;margin-bottom:14px}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;white-space:nowrap}
+.pill.good{background:var(--goodbg);color:var(--good)}.pill.warn{background:var(--warnbg);color:var(--warn)}.pill.bad{background:var(--badbg);color:var(--bad)}.pill.neutral{background:#eaf1f6;color:#41606f}.pill.teal{background:var(--mint);color:#075d70}
+.chip{display:inline-block;background:#eaf3f8;border-radius:8px;padding:2px 8px;font-size:12px;font-weight:800;color:#2b5568}
+.empty{text-align:center;padding:30px 14px;color:var(--muted)}.empty .e{font-size:38px;margin-bottom:8px}
+.kv{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.kv>div{background:#f5f9fc;border:1px solid #e3edf3;border-radius:12px;padding:9px 11px;min-width:0}.kv span{display:block;font-size:11px;color:var(--muted)}.kv b{display:block;font-size:16px;margin-top:2px}
+.bar{height:9px;border-radius:9px;background:#e5eef3;overflow:hidden}.bar i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--teal),var(--teal2))}
+.chart{display:flex;align-items:flex-end;gap:8px;height:130px;padding-top:8px}.chart .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}.chart .c i{width:100%;max-width:34px;border-radius:7px 7px 3px 3px;background:linear-gradient(180deg,var(--teal2),var(--teal));min-height:3px}.chart .c.red i{background:linear-gradient(180deg,#e8727c,var(--bad))}.chart .c em{font-style:normal;font-size:10.5px;color:var(--muted);margin-top:5px;white-space:nowrap}.chart .c u{text-decoration:none;font-size:11px;font-weight:700;margin-bottom:3px}
+
+/* avatar */
+.av{position:relative;display:inline-grid;place-items:center;width:var(--s,44px);height:var(--s,44px);border-radius:50%;background:linear-gradient(135deg,#bfe9ee,#cfe3f7);color:#075d70;font-weight:800;font-size:calc(var(--s,44px)*.36);flex-shrink:0;overflow:hidden;border:2px solid #fff;box-shadow:0 2px 8px rgba(22,64,88,.15)}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.person{display:flex;align-items:center;gap:12px;min-width:0}.person strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.person small{color:var(--muted);display:block}
+
+/* login */
+.login{min-height:100vh;min-height:100dvh;display:grid;grid-template-columns:1.05fr 1fr}
+.login-art{background:linear-gradient(150deg,#0b4f63,#087f8c 55%,#137bb0);color:#fff;padding:44px;display:flex;flex-direction:column;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:19px;line-height:1.1}.brand small{display:block;font-size:10.5px;letter-spacing:.14em;opacity:.75;font-weight:600;margin-top:2px}
+.brand-mark{width:44px;height:44px;border-radius:14px;background:rgba(255,255,255,.18);display:grid;place-items:center;font-size:24px}
+.login-art h1{font-size:44px;line-height:1.05;margin:26px 0 14px}.login-art p{opacity:.85;max-width:430px;font-size:16px}
+.login-side{display:grid;place-items:center;padding:24px}
+.login-card{width:100%;max-width:420px}
+.login-card h2{font-size:28px}.login-card>p{color:var(--muted);margin:4px 0 18px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:#e6eff5;border-radius:14px;padding:4px;margin-bottom:18px}
+.seg button{border:0;background:transparent;padding:11px;border-radius:11px;font-weight:700;cursor:pointer;color:var(--muted)}.seg button.on{background:#fff;color:var(--deep);box-shadow:0 2px 8px rgba(22,64,88,.12)}
+.err{color:var(--bad);font-size:13.5px;min-height:20px;margin-top:10px;font-weight:600}
+.notice{background:var(--warnbg);color:#6b4300;border-radius:12px;padding:12px 14px;font-size:13.5px;margin-bottom:14px}
+.linkbtn{background:none;border:0;color:var(--teal);font-weight:700;cursor:pointer;padding:8px 0;font-size:14px}
+
+/* app shell */
+.app{min-height:100vh}
+.side{position:fixed;inset:0 auto 0 0;width:250px;background:#fff;border-right:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:14px;z-index:30}
+.side .brand{color:var(--deep);padding:4px 6px 10px}.side .brand-mark{background:var(--mint)}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav button{display:flex;align-items:center;gap:12px;border:0;background:transparent;border-radius:12px;padding:12px 14px;font-weight:700;font-size:15px;color:#3d5a69;cursor:pointer;text-align:left;position:relative}
+.nav button .ico{width:24px;text-align:center;font-size:18px}
+.nav button.on{background:var(--mint);color:var(--deep)}.nav button:hover{background:#eef6f9}
+.nav .dot{margin-left:auto;background:var(--bad);color:#fff;border-radius:999px;font-size:11px;min-width:20px;height:20px;display:grid;place-items:center;padding:0 6px}
+.side-user{margin-top:auto;border-top:1px solid var(--line);padding-top:14px}
+.main{margin-left:250px}
+.top{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);height:var(--top);display:flex;align-items:center;gap:8px;padding:0 14px;padding-top:env(safe-area-inset-top)}
+.top .ttl{font-weight:800;font-size:17px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--deep)}
+.top .menu-btn{display:none}
+.datechip{font-size:12.5px;font-weight:700;color:var(--muted);background:#eef4f8;border-radius:999px;padding:6px 12px}
+.strip{display:flex;align-items:center;gap:10px;padding:10px 18px;font-weight:700;font-size:14px;cursor:pointer}
+.strip.good{background:var(--goodbg);color:var(--good)}.strip.warn{background:var(--warnbg);color:var(--warn)}.strip.info{background:var(--mint);color:#075d70}
+.page{padding:22px;max-width:1180px;margin:0 auto}
+.bnav{display:none}
+.drawer-bg{position:fixed;inset:0;background:rgba(8,28,43,.45);z-index:60;opacity:0;pointer-events:none;transition:opacity .2s}
+.drawer-bg.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;bottom:0;left:0;width:min(84vw,310px);background:#fff;z-index:61;transform:translateX(-102%);transition:transform .24s ease;display:flex;flex-direction:column;padding:calc(18px + env(safe-area-inset-top)) 14px calc(16px + env(safe-area-inset-bottom));overflow:auto}
+.drawer.open{transform:none}
+.drawer-user{background:linear-gradient(150deg,#0b4f63,#087f8c);color:#fff;border-radius:18px;padding:16px;margin-bottom:14px}
+.drawer-user .person small{color:#cfeaf0}
+.drawer .nav button{padding:14px;font-size:16px}
+
+/* modal / bottom sheet */
+#modalRoot:empty{display:none}
+.mbg{position:fixed;inset:0;background:rgba(8,28,43,.5);z-index:80;display:grid;place-items:center;padding:16px}
+.modal{background:#fff;border-radius:20px;width:100%;max-width:560px;max-height:92vh;max-height:92dvh;display:flex;flex-direction:column;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:pop .2s ease}
+.modal.wide{max-width:760px}
+.modal-h{display:flex;align-items:center;justify-content:space-between;padding:16px 18px;border-bottom:1px solid var(--line)}.modal-h h3{font-size:18px}
+.modal-b{padding:18px;overflow:auto;-webkit-overflow-scrolling:touch}
+.x{border:0;background:#eef4f8;width:36px;height:36px;border-radius:50%;font-size:16px;cursor:pointer}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.toast{width:max-content;min-width:180px;position:fixed;left:50%;bottom:calc(var(--nav) + 20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#12313f;color:#fff;border-radius:14px;padding:12px 18px;z-index:100;font-weight:600;max-width:92vw;box-shadow:0 8px 24px rgba(0,0,0,.25);animation:pop .2s}
+.toast.err{background:var(--bad)}.toast.ok{background:var(--good)}
+.loadbar{position:fixed;top:0;left:0;right:0;height:3px;z-index:120;background:linear-gradient(90deg,var(--teal),var(--blue),var(--teal));background-size:200% 100%;animation:ld 1s linear infinite}
+@keyframes ld{to{background-position:-200% 0}}
+
+/* big banner (farmer) */
+.banner{border-radius:20px;padding:18px 18px;display:flex;gap:14px;align-items:center;margin-bottom:16px}
+.banner .big{font-size:38px}.banner h2{font-size:20px}.banner p{font-size:14px;margin-top:2px}
+.banner.good{background:linear-gradient(135deg,#d9f6e5,#e9fbf1);color:#0d5c37;border:1px solid #b9e8cf}
+.banner.warn{background:linear-gradient(135deg,#fff0c9,#fff8e4);color:#6b4300;border:1px solid #f3dd9c}
+.banner.info{background:var(--mint);color:#075d70;border:1px solid #bfe6ea}
+
+/* report form */
+.rsec{border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px;background:#fbfdfe}
+.rsec h4{margin:0 0 10px;font-size:15px;display:flex;align-items:center;gap:8px}.rsec h4 .req{white-space:nowrap;margin-left:auto;font-size:11px;color:var(--bad);font-weight:800}
+.ptile{margin-top:10px}
+.ptile-prev{height:150px;border:2px dashed #b5cfda;border-radius:14px;display:grid;place-items:center;text-align:center;color:var(--muted);background:#f4f9fb;overflow:hidden;position:relative}
+.ptile-prev .ph{font-size:34px;display:block}.ptile-prev img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ptile.done .ptile-prev{border-style:solid;border-color:var(--good)}
+.ptile.done .ptile-prev:after{content:"✓ Photo added";position:absolute;left:8px;bottom:8px;background:var(--good);color:#fff;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700}
+.ptile-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.pbtn{display:flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--line);background:#fff;border-radius:12px;min-height:44px;font-weight:700;font-size:14px;cursor:pointer;color:var(--deep)}
+.pbtn:active{background:var(--mint)}
+.thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.thumb{width:64px;height:64px;border-radius:12px;object-fit:cover;border:1px solid var(--line);cursor:zoom-in;background:#eaf1f6}
+.thumbw{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;color:var(--muted)}
+.lightbox img{width:100%;max-height:70vh;object-fit:contain;border-radius:12px;background:#eef4f8}
+
+/* list items */
+.item{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+.item+.item{margin-top:10px}.cards .item+.item{margin-top:0}
+.item h4{margin:0;font-size:16px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}.tbl th{text-align:left;background:#eaf3f8;color:#365466;padding:8px 10px;font-size:12px}.tbl td{padding:8px 10px;border-top:1px solid #e4edf2}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-bottom:14px;padding-bottom:2px}
+.tabs button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:8px 15px;font-weight:700;font-size:13.5px;color:var(--muted);cursor:pointer;white-space:nowrap}.tabs button.on{background:var(--deep);border-color:var(--deep);color:#fff}
+.sk{background:linear-gradient(90deg,#e8f0f5 25%,#f4f8fb 37%,#e8f0f5 63%);background-size:400% 100%;animation:sk 1.3s ease infinite;border-radius:16px}
+@keyframes sk{to{background-position:-400% 0}}@keyframes spin{to{transform:rotate(360deg)}}
+.btn.busy{position:relative;color:transparent!important}.btn.busy::after{content:"";position:absolute;width:18px;height:18px;border:2.5px solid rgba(120,150,160,.45);border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite}
+.btn-primary.busy::after{border-color:rgba(255,255,255,.5);border-top-color:#fff}
+.icon-btn.spinning{animation:spin .8s linear infinite}.fade{animation:pop .3s ease}
+.chart.dense{gap:3px}.chart.dense u{display:none}.chart.dense .c i{max-width:none}
+.lb{display:grid;grid-template-columns:minmax(70px,120px) 1fr 54px;gap:8px;align-items:center;margin:8px 0}
+.hb{height:10px;border-radius:9px;background:#e5eef3;overflow:hidden}.hb i{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,var(--teal),var(--teal2))}
+.dl{display:flex;flex-direction:column;font-size:11.5px;font-weight:700;color:var(--muted);flex:1;min-width:130px}.dl input{margin-top:3px;min-width:0;width:100%}
+.filters input[type=search]{min-width:200px}
+.tbl tr[data-act]:hover{background:#f2f8fb}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}.filters select,.filters input{border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;background:#fff;min-height:44px;font-size:15px;flex:1;min-width:140px}
+
+@media(max-width:899px){
+ .side{display:none}.main{margin-left:0}
+ .top .menu-btn{display:grid}.datechip{display:none}
+ .bnav{display:grid;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid var(--line);grid-auto-flow:column;grid-auto-columns:1fr;height:calc(var(--nav) + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -6px 20px rgba(22,64,88,.08)}
+ .bnav button{border:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:11px;font-weight:700;color:#6a8290;cursor:pointer;position:relative}
+ .bnav button span{font-size:22px;line-height:1}.bnav button.on{color:var(--teal)}
+ .bnav button.on:before{content:"";position:absolute;top:0;width:34px;height:3px;border-radius:0 0 4px 4px;background:var(--teal)}
+ .bnav .dot{position:absolute;top:6px;left:calc(50% + 8px);background:var(--bad);color:#fff;border-radius:999px;font-size:10px;min-width:17px;height:17px;display:grid;place-items:center;padding:0 4px}
+ .page{padding:14px 12px calc(var(--nav) + 28px + env(safe-area-inset-bottom))}
+ .page-head h1{font-size:22px}
+ .cols{grid-template-columns:1fr}
+ .stats{grid-template-columns:1fr 1fr;gap:10px}.stats .stat:last-child:nth-child(odd){grid-column:1/-1}.stat{padding:12px}.stat b{font-size:22px}
+ .cards{grid-template-columns:1fr}
+ .strip{padding:10px 14px;font-size:13.5px}
+ .mbg{align-items:end;padding:0}
+ .modal,.modal.wide{max-width:none;border-radius:22px 22px 0 0;max-height:94dvh;animation:up .26s ease}
+ .modal-b{padding:16px 16px calc(24px + env(safe-area-inset-bottom))}
+ .login{grid-template-columns:1fr}
+ .login-art{padding:calc(22px + env(safe-area-inset-top)) 20px 26px;border-radius:0 0 28px 28px}
+ .login-art h1{font-size:28px;margin:18px 0 8px}.login-art p{font-size:14px}.login-art .foot{display:none}
+ .login-side{padding:22px 16px 30px;align-items:start}
+ .btn{min-height:48px}.btn-sm{min-height:40px}
+}
+@media(max-width:380px){.grid2{grid-template-columns:1fr}.stats{gap:8px}}
+@media print{.side,.top,.bnav,.strip{display:none!important}.main{margin:0}}
+</style>
+</head>
+<body>
+<div id="loadbar" class="loadbar hidden"></div>
+
+<!-- ================= LOGIN ================= -->
+<section id="login" class="login hidden">
+  <div class="login-art">
+    <div>
+      <div class="brand"><div class="brand-mark">🐣</div><div>Sunil Poultry<small>FARM MANAGEMENT</small></div></div>
+      <h1>Every bird.<br>Every batch.<br><span style="color:#9be8c2">Under control.</span></h1>
+      <p>Daily mortality, feed bags, weight and batch performance — reported by farmers, tracked by the owner.</p>
+    </div>
+    <div class="foot small" style="opacity:.7">SUNIL POULTRY · FARM OPERATIONS</div>
+  </div>
+  <div class="login-side">
+    <form class="login-card" data-form="login" novalidate>
+      <h2>Welcome back</h2>
+      <p>Sign in to your farm workspace.</p>
+      <div id="setupNotice" class="notice hidden">Backend not connected yet. Open <b>index.html</b>, set <b>API_URL</b> to your Google Apps Script web-app link (see DEPLOY.md).</div>
+      <div class="seg"><button type="button" class="on" data-act="loginRole" data-role="owner">Owner</button><button type="button" data-act="loginRole" data-role="farmer">Farmer</button></div>
+      <div class="field"><label id="lidLabel" for="lid">Owner ID</label><input id="lid" autocomplete="username" autocapitalize="none" placeholder="owner"></div>
+      <div class="field"><label for="lpw">Password</label><div class="pw"><input id="lpw" type="password" autocomplete="current-password" placeholder="Enter password"><button type="button" data-act="togglePw" data-t="lpw" aria-label="Show password">👁</button></div></div>
+      <button class="btn btn-primary btn-block" type="submit" id="loginBtn">Sign in →</button>
+      <div id="loginErr" class="err"></div>
+      <div id="farmerLinks" class="hidden" style="text-align:center"><button type="button" class="linkbtn" data-act="openReset">Forgot / change password?</button></div>
+    </form>
+  </div>
+</section>
+
+<!-- ================= APP ================= -->
+<div id="app" class="app hidden">
+  <aside class="side">
+    <div class="brand"><div class="brand-mark">🐣</div><div>Sunil Poultry<small>FARM MANAGEMENT</small></div></div>
+    <nav class="nav" id="sideNav"></nav>
+    <div class="side-user"><div class="person" id="sideUser"></div><button class="btn btn-ghost btn-sm btn-block" style="margin-top:12px" data-act="logout">↪ Sign out</button></div>
+  </aside>
+  <div class="main">
+    <header class="top">
+      <button class="icon-btn menu-btn" data-act="openDrawer" aria-label="Menu">☰</button>
+      <div class="ttl" id="ttl"></div>
+      <span class="datechip" id="dchip"></span>
+      <button class="icon-btn" data-act="refresh" aria-label="Refresh" title="Refresh">↻</button>
+      <span id="topAv" data-act="openDrawer"></span>
+    </header>
+    <div id="strip"></div>
+    <div class="page" id="page"></div>
+  </div>
+</div>
+<nav class="bnav hidden" id="bnav" aria-label="Quick navigation"></nav>
+<div class="drawer-bg" id="dbg" data-act="closeDrawer"></div>
+<aside class="drawer" id="drawer" aria-label="Menu"></aside>
+<div id="modalRoot"></div><div id="toastRoot"></div>
+
+<script>
+/* ============================================================
+   SETTINGS — paste your Google Apps Script web-app URL below
+   ============================================================ */
+const CONFIG={API_URL:'https://script.google.com/macros/s/AKfycby4Xd7u-6zUs_o5vmMgichrTVnXacbu5hmwUP_qLdh_aEq35fnksAjYq6jqBzVbCQKT/exec'};
+
+const $=s=>document.querySelector(s);
+const S={token:localStorage.getItem('sp_token')||'',data:null,page:'',loginRole:'owner',last:0,busy:0,rep:'today',repFarmer:'',bat:'Active',bagTab:'open',more:{}};
+const PH={}; // photo data-URLs keyed by tile id
+const D=()=>S.data;
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>Number(n||0).toLocaleString('en-IN');
+const num=n=>{n=Number(n||0);return Number.isInteger(n)?fmt(n):n.toLocaleString('en-IN',{maximumFractionDigits:2})};
+const num1=n=>Number(n||0).toLocaleString('en-IN',{maximumFractionDigits:1});
+const kg=n=>Number(n||0).toFixed(2)+' kg';
+const dateFmt=d=>d?new Date(String(d).slice(0,10)+'T00:00:00').toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}):'—';
+const dtFmt=s=>s?dateFmt(s)+' · '+String(s).slice(11,16):'—';
+const initials=s=>String(s||'U').trim().split(/\s+/).slice(0,2).map(x=>x[0]||'').join('').toUpperCase();
+const first=s=>String(s||'').trim().split(/\s+/)[0];
+const normPhone=p=>String(p||'').replace(/\D/g,'').slice(-10);
+const waLink=(phone,msg)=>{const p=normPhone(phone);return p.length===10?'https://wa.me/91'+p+'?text='+encodeURIComponent(msg):''};
+
+/* ---------- derived data ---------- */
+const farmerById=id=>D().farmers.find(f=>f.id===id)||{id,name:'Unknown farmer',code:'',phone:'',village:''};
+const batchById=id=>D().batches.find(b=>b.id===id);
+const repsOf=id=>D().reports.filter(r=>r.batchId===id);
+const deaths=b=>repsOf(b.id).reduce((s,r)=>s+r.deaths,0);
+const loaded=b=>D().dispatches.filter(d=>d.batchId===b.id).reduce((s,d)=>s+d.quantity,0);
+const live=b=>Math.max(0,b.initial-deaths(b)-loaded(b));
+const feedUsed=b=>repsOf(b.id).reduce((s,r)=>s+r.feedBags,0);
+const lastRep=b=>repsOf(b.id).slice().sort((a,c)=>c.date.localeCompare(a.date))[0];
+const isActive=b=>b.status!=='Finished';
+const repToday=b=>D().reports.find(r=>r.batchId===b.id&&r.date===D().today);
+const mortPct=b=>b.initial?deaths(b)/b.initial*100:0;
+const statusOf=b=>{const m=mortPct(b);return m>=5?['Needs attention','bad']:m>=3?['Monitor','warn']:['On track','good']};
+const dayNo=(b,date)=>Math.max(1,Math.round((new Date(date+'T00:00:00')-new Date(b.startDate+'T00:00:00'))/864e5)+1);
+const bagsIn=fid=>D().bagflow.filter(x=>x.farmerId===fid&&x.status==='Accepted').reduce((s,x)=>s+x.qty,0);
+const bagsUsed=fid=>D().reports.filter(r=>r.farmerId===fid).reduce((s,r)=>s+r.feedBags,0);
+const bagBal=fid=>bagsIn(fid)-bagsUsed(fid);
+const isOwner=()=>D().me.role==='owner';
+const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+
+/* ---------- photos ---------- */
+function photoSrc(v,w=600){if(!v)return '';if(/^[\w-]{20,}$/.test(v))return `https://drive.google.com/thumbnail?id=${v}&sz=w${w}`;return v}
+function avatar(f,size=44){const src=photoSrc(f&&f.photo,200);return `<span class="av" style="--s:${size}px">${esc(initials(f&&f.name))}${src?`<img src="${esc(src)}" alt="" loading="lazy" onerror="this.remove()">`:''}</span>`}
+function compress(file,{max=1280,q=.72,stamp=false}={}){return new Promise((res,rej)=>{const img=new Image(),url=URL.createObjectURL(file);img.onload=()=>{let w=img.naturalWidth,h=img.naturalHeight;const k=Math.min(1,max/Math.max(w,h));w=Math.round(w*k);h=Math.round(h*k);const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');g.drawImage(img,0,0,w,h);if(stamp){const t=new Date().toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'});const fs=Math.max(13,Math.round(w/34));g.font=`700 ${fs}px sans-serif`;const tw=g.measureText(t).width;g.fillStyle='rgba(0,0,0,.55)';g.fillRect(0,h-fs*1.9,tw+fs*1.4,fs*1.9);g.fillStyle='#fff';g.fillText(t,fs*.7,h-fs*.55)}URL.revokeObjectURL(url);res(c.toDataURL('image/jpeg',q))};img.onerror=()=>{URL.revokeObjectURL(url);rej(new Error('Could not read this photo. Try another one.'))};img.src=url})}
+function photoTile(key,label,icon,{stamp=true,capture='environment'}={}){const has=PH[key];return `<div class="ptile ${has?'done':''}" data-key="${key}" data-stamp="${stamp?1:0}"><div class="ptile-prev">${has?`<img src="${has}" alt="">`:`<div><span class="ph">${icon}</span><small>${esc(label)}</small></div>`}</div><div class="ptile-btns"><label class="pbtn">📷 Camera<input type="file" accept="image/*" capture="${capture}" hidden></label><label class="pbtn">🖼 Gallery<input type="file" accept="image/*" hidden></label></div></div>`}
+function thumbs(r){const items=[['photoFeed','Feed'],['photoMortality','Dead'],['photoWeight','Weight']].filter(x=>r[x[0]]);if(!items.length)return '<div class="small muted" style="margin-top:8px">No photos attached</div>';return `<div class="thumbs">${items.map(([k,l])=>`<div class="thumbw"><img class="thumb" src="${esc(photoSrc(r[k],240))}" alt="${l}" loading="lazy" data-act="viewPhoto" data-id="${esc(r[k])}"><span>${l}</span></div>`).join('')}</div>`}
+
+/* ---------- ui helpers ---------- */
+function toast(msg,type=''){const el=$('#toastRoot');el.innerHTML=`<div class="toast ${type}">${esc(msg)}</div>`;clearTimeout(toast.t);toast.t=setTimeout(()=>el.innerHTML='',3200)}
+function setBusy(n){S.busy=Math.max(0,S.busy+n);document.querySelectorAll('[data-act=refresh]').forEach(e=>e.classList.toggle('spinning',S.busy>0));$('#loadbar').classList.toggle('hidden',S.busy===0)}
+function openModal(title,body,wide){$('#modalRoot').innerHTML=`<div class="mbg" id="mbg"><div class="modal ${wide?'wide':''}" role="dialog" aria-modal="true"><div class="modal-h"><h3>${title}</h3><button class="x" data-act="closeModal" aria-label="Close">✕</button></div><div class="modal-b">${body}</div></div></div>`;$('#mbg').addEventListener('mousedown',e=>{if(e.target.id==='mbg')closeModal()})}
+function closeModal(){$('#modalRoot').innerHTML=''}
+function ask(title,msg,ok='Confirm'){return new Promise(res=>{openModal(title,`<p>${msg}</p><div class="grid2" style="margin-top:18px"><button class="btn btn-ghost" id="axNo">Cancel</button><button class="btn btn-primary" id="axOk">${ok}</button></div>`);$('#axNo').onclick=()=>{closeModal();res(false)};$('#axOk').onclick=()=>{closeModal();res(true)}})}
+const pill=(t,c)=>`<span class="pill ${c}">${t}</span>`;
+const empty=(e,t,s='')=>`<div class="empty"><div class="e">${e}</div><b>${t}</b><p class="small">${s}</p></div>`;
+const passField=(id,label,ph='',req=true)=>`<div class="field"><label for="${id}">${label}</label><div class="pw"><input id="${id}" name="${id}" type="password" autocomplete="new-password" placeholder="${ph}" ${req?'required':''}><button type="button" data-act="togglePw" data-t="${id}" aria-label="Show password">👁</button></div></div>`;
+
+/* ---------- API ---------- */
+async function api(action,payload={}){
+  if(CONFIG.API_URL.includes('PASTE'))throw new Error('Backend not connected. Set API_URL in index.html (see DEPLOY.md).');
+  setBusy(1);
+  try{
+    const res=await fetch(CONFIG.API_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,token:S.token,...payload})});
+    const j=await res.json();
+    if(!j.ok){if(/sign in/i.test(j.error||'')&&S.token)logout(true);throw new Error(j.error||'Request failed')}
+    if(j.data){S.data=j.data;S.last=Date.now()}
+    return j;
+  }catch(e){
+    if(e instanceof TypeError)throw new Error('Cannot reach the server. Check your internet and try again.');
+    if(e instanceof SyntaxError)throw new Error('Unexpected server reply. In Apps Script, deploy as Web app with access “Anyone”.');
+    throw e;
+  }finally{setBusy(-1)}
+}
+async function run(fn,btn){if(btn){btn.disabled=true;btn.classList.add('busy')}try{await fn()}catch(e){toast(e.message||'Something went wrong','err')}finally{if(btn&&btn.isConnected){btn.disabled=false;btn.classList.remove('busy')}}}
+
+/* ---------- session ---------- */
+const NAV={
+  owner:[['home','🏠','Home'],['farmers','👥','Farmers'],['batches','🐣','Batches'],['reports','📋','Reports'],['analytics','📈','Analytics'],['loading','🚚','Loading'],['bags','🌾','Feed bags'],['account','⚙️','Account']],
+  farmer:[['today','📝','Today'],['bags','🌾','Feed bags'],['batches','🐣','My batches'],['history','🕘','History'],['profile','👤','Profile']]};
+const BNAV={owner:['home','batches','reports','analytics','bags'],farmer:['today','bags','batches','history','profile']};
+const TITLES={home:'Owner dashboard',farmers:'Farmers',batches:'Chick batches',reports:'Daily reports',analytics:'Analytics',loading:'Loading register',bags:'Feed bags',account:'Account',today:'Today\'s report',history:'Report history',profile:'My profile'};
+function start(){
+  $('#login').classList.add('hidden');$('#app').classList.remove('hidden');$('#bnav').classList.remove('hidden');
+  const h=(location.hash||'').slice(1);const ok=NAV[D().me.role].some(n=>n[0]===h);
+  S.page=ok?h:(isOwner()?'home':'today');history.replaceState({p:S.page},'','#'+S.page);
+  renderAll();
+}
+function logout(silent){S.token='';S.data=null;localStorage.removeItem('sp_token');closeDrawer();closeModal();$('#app').classList.add('hidden');$('#bnav').classList.add('hidden');$('#login').classList.remove('hidden');$('#lpw').value='';$('#loginErr').textContent=silent===true?'Session ended. Please sign in again.':''}
+function go(p){S.page=p;history.pushState({p},'','#'+p);closeDrawer();window.scrollTo(0,0);if(isOwner()&&(p==='analytics'||p==='loading')){renderShell();$('#page').innerHTML=skel();setTimeout(()=>{if(S.page===p)renderPage()},260)}else renderAll()}
+window.addEventListener('popstate',e=>{if(D()&&e.state&&e.state.p){S.page=e.state.p;renderAll()}});
+const pendingBatches=()=>D().batches.filter(b=>isActive(b)&&!repToday(b));
+function badge(p){if(!D())return 0;if(isOwner()&&p==='bags')return D().bagflow.filter(x=>x.status==='Requested').length;if(!isOwner()&&p==='bags')return D().bagflow.filter(x=>x.status==='Pending').length;if(!isOwner()&&p==='today')return pendingBatches().length;return 0}
+function renderAll(){renderShell();renderPage()}
+function renderShell(){
+  const role=D().me.role,nav=NAV[role];
+  const me=isOwner()?{name:'Owner',village:'Administrator'}:farmerById(D().me.farmerId);
+  const navHtml=nav.map(([id,ico,l])=>{const n=badge(id);return `<button data-act="go" data-p="${id}" class="${S.page===id?'on':''}"><span class="ico">${ico}</span>${l}${n?`<span class="dot">${n}</span>`:''}</button>`}).join('');
+  $('#sideNav').innerHTML=navHtml;
+  $('#bnav').innerHTML=BNAV[role].map(id=>{const [,ico,l]=nav.find(n=>n[0]===id);const n=badge(id);return `<button data-act="go" data-p="${id}" class="${S.page===id?'on':''}"><span>${ico}</span>${id==='batches'&&!isOwner()?'Batches':l}${n?`<i class="dot">${n}</i>`:''}</button>`}).join('');
+  const who=`${avatar(isOwner()?{name:'Owner'}:me,42)}<div style="min-width:0"><strong>${isOwner()?'Sunil Poultry':esc(me.name)}</strong><small>${isOwner()?'Owner / Administrator':'Farmer · '+esc(me.code)}</small></div>`;
+  $('#sideUser').innerHTML=who;$('#topAv').innerHTML=avatar(isOwner()?{name:'OW'}:me,36);
+  $('#drawer').innerHTML=`<div class="drawer-user"><div class="person">${avatar(isOwner()?{name:'Owner'}:me,54)}<div style="min-width:0"><strong>${isOwner()?'Sunil Poultry':esc(me.name)}</strong><small>${isOwner()?'Owner / Administrator':'Farmer · '+esc(me.code)+' · '+esc(me.village)}</small></div></div></div><nav class="nav">${navHtml}</nav><div style="margin-top:auto;padding-top:16px"><button class="btn btn-ghost btn-block" data-act="logout">↪ Sign out</button></div>`;
+  $('#ttl').textContent=TITLES[S.page]||'';
+  $('#dchip').textContent=new Date(D().today+'T00:00:00').toLocaleDateString('en-IN',{weekday:'short',day:'2-digit',month:'short',year:'numeric'});
+  renderStrip();
+}
+function renderStrip(){
+  const el=$('#strip'),act=D().batches.filter(isActive);
+  if(!act.length){el.innerHTML='';return}
+  const pend=pendingBatches();
+  if(isOwner()){el.innerHTML=`<div class="strip ${pend.length?'info':'good'}" data-act="go" data-p="reports">📊 ${act.length-pend.length} of ${act.length} active batches reported today${pend.length?'':' ✅'}</div>`;return}
+  el.innerHTML=pend.length?`<div class="strip warn" data-act="go" data-p="today">⏳ Today's report pending for ${pend.length} batch${pend.length>1?'es':''} — tap to submit</div>`:`<div class="strip good" data-act="go" data-p="today">✅ Today's report submitted — thank you!</div>`;
+}
+function renderPage(){
+  const p=S.page,o=isOwner();
+  const P={home:ownerHome,farmers:farmersPage,batches:batchesPage,reports:reportsPage,analytics:analyticsPage,loading:loadingPage,bags:()=>o?ownerBags():farmerBags(),account:accountPage,today:farmerToday,history:historyPage,profile:profilePage};
+  $('#page').innerHTML=(P[p]||P[o?'home':'today'])();
+  $('#ttl').textContent=TITLES[p]||'';
+}
+function openDrawer(){$('#drawer').classList.add('open');$('#dbg').classList.add('open')}
+function closeDrawer(){$('#drawer').classList.remove('open');$('#dbg').classList.remove('open')}
+async function refresh(quiet){await api('getData');renderShell();if(!formDirty())renderPage();if(!quiet)toast('Updated','ok')}
+function formDirty(){return Object.keys(PH).length>0||[...document.querySelectorAll('#page form input,#page form textarea')].some(i=>i.value&&i.type!=='file')}
+
+/* ============================================================
+   OWNER PAGES
+   ============================================================ */
+function barChart(vals,red){const mx=Math.max(1,...vals.map(v=>v.v));return `<div class="chart">${vals.map(v=>`<div class="c ${red?'red':''}"><u>${v.v?num(v.v):''}</u><i style="height:${Math.max(3,v.v/mx*78)}%"></i><em>${esc(v.l)}</em></div>`).join('')}</div>`}
+function last7(fn){const t=new Date(D().today+'T00:00:00');return Array.from({length:7},(_,i)=>{const d=new Date(t);d.setDate(d.getDate()-(6-i));const k=d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');return {l:d.toLocaleDateString('en-IN',{day:'2-digit',month:'short'}),v:fn(k)}})}
+function ownerHome(){
+  const d=D(),act=d.batches.filter(isActive),pend=pendingBatches(),done=act.length-pend.length,pct=act.length?Math.round(done/act.length*100):0;
+  const liveAll=sum(act,live),initAll=sum(act,b=>b.initial),dAll=sum(act,deaths);
+  const tr=d.reports.filter(r=>r.date===d.today);
+  const stock=sum(d.farmers,f=>bagBal(f.id)),reqs=d.bagflow.filter(x=>x.status==='Requested'),waiting=d.bagflow.filter(x=>x.status==='Pending');
+  const byFarmer={};pend.forEach(b=>{(byFarmer[b.farmerId]=byFarmer[b.farmerId]||[]).push(b)});
+  const pf=Object.keys(byFarmer);
+  const att=act.filter(b=>statusOf(b)[1]!=='good').sort((a,b)=>mortPct(b)-mortPct(a));
+  const dayLbl=new Date(d.today+'T00:00:00').toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+  return `<div class="page-head"><div><h1>Owner dashboard</h1><p>${dayLbl}</p></div><div class="row wrap"><button class="btn btn-soft" data-act="farmerForm">＋ Farmer</button><button class="btn btn-primary" data-act="batchForm">＋ New batch</button></div></div>
+  <div class="stats">
+    <div class="stat"><span>🐥 Live chicks</span><b>${fmt(liveAll)}</b><small>of ${fmt(initAll)} placed (active)</small></div>
+    <div class="stat ${dAll/Math.max(1,initAll)>=.05?'bad':''}"><span>☠️ Deaths today</span><b>${fmt(sum(tr,r=>r.deaths))}</b><small>${initAll?(dAll/initAll*100).toFixed(2):'0.00'}% total mortality</small></div>
+    <div class="stat"><span>🌾 Feed used today</span><b>${num1(sum(tr,r=>r.feedBags))}</b><small>bags · ${tr.length} report${tr.length===1?'':'s'}</small></div>
+    <div class="stat"><span>👥 Active farmers</span><b>${d.farmers.filter(f=>f.status!=='Inactive').length}</b><small>${act.length} active batches</small></div>
+    <div class="stat ${stock<0?'bad':''}" data-act="go" data-p="bags" style="cursor:pointer"><span>📦 Bags with farmers</span><b>${num1(stock)}</b><small>${reqs.length} request${reqs.length===1?'':'s'} · ${waiting.length} awaiting accept</small></div>
+  </div>
+  <div class="card" style="margin-bottom:14px"><div class="card-h"><h3>Today's reporting</h3>${pill(done+' / '+act.length+' reported',pend.length?'warn':'good')}</div>
+    <div class="bar"><i style="width:${pct}%"></i></div>
+    ${pf.length?`<p class="small muted" style="margin:10px 0 8px">Waiting for ${pf.length} farmer${pf.length>1?'s':''}:</p><div class="col" style="display:grid;gap:8px">${pf.slice(0,4).map(id=>{const f=farmerById(id),bs=byFarmer[id],wa=waLink(f.phone,`Namaste ${first(f.name)}, please submit today's report (feed bags, mortality and weight with photos) on the Sunil Poultry app.`);return `<div class="row between"><div class="person">${avatar(f,36)}<div><strong>${esc(f.name)}</strong><small>${bs.map(b=>b.id).join(', ')}</small></div></div>${wa?`<a class="btn btn-wa btn-sm" href="${wa}" target="_blank" rel="noopener">☏ Remind</a>`:''}</div>`}).join('')}${pf.length>4?`<button class="linkbtn" data-act="go" data-p="reports">+ ${pf.length-4} more waiting — see Reports →</button>`:''}</div>`:`<p class="small" style="margin-top:10px;color:var(--good);font-weight:700">${act.length?'✅ Every active batch has reported today.':'No active batches yet.'}</p>`}
+  </div>
+  ${reqs.length?`<div class="banner warn" style="cursor:pointer" data-act="go" data-p="bags"><div class="big">📨</div><div><h2>${reqs.length} feed bag request${reqs.length>1?'s':''} waiting</h2><p>Tap to approve or decline.</p></div></div>`:''}
+  <div class="cols"><div class="card"><div class="card-h"><h3>Mortality · last 7 days</h3>${pill('deaths per day','neutral')}</div>${barChart(last7(k=>sum(d.reports.filter(r=>r.date===k),r=>r.deaths)),true)}</div>
+  <div class="card"><div class="card-h"><h3>Feed bags · last 7 days</h3>${pill('bags per day','neutral')}</div>${barChart(last7(k=>sum(d.reports.filter(r=>r.date===k),r=>r.feedBags)))}</div></div>
+  <div class="card-h" style="margin-top:20px"><h3 style="font-size:18px">${att.length?'Batches needing a look':'Active batches'}</h3><button class="btn btn-ghost btn-sm" data-act="go" data-p="batches">All batches →</button></div>
+  <div class="cards">${(att.length?att:act).slice(0,6).map(batchCard).join('')||empty('🐣','No batches yet','Add a farmer, then place a batch.')}</div>`;
+}
+function farmerCard(f){
+  const bs=D().batches.filter(b=>b.farmerId===f.id),act=bs.filter(isActive),pend=act.filter(b=>!repToday(b)),bal=bagBal(f.id);
+  const wa=waLink(f.phone,`Namaste ${first(f.name)}, Sunil Poultry here.`);
+  return `<div class="item"><div class="row between" style="align-items:flex-start"><div class="person">${avatar(f,58)}<div><h4>${esc(f.name)}</h4><small>${esc(f.village)} · <a href="tel:${esc(f.phone)}" style="color:inherit">${esc(f.phone)}</a></small></div></div><div style="text-align:right"><span class="chip">${esc(f.code)}</span><div style="margin-top:6px">${f.status==='Inactive'?pill('Inactive','neutral'):pill('Active','good')}</div></div></div>
+  <div class="kv"><div><span>Active batches</span><b>${act.length}</b></div><div><span>Live chicks</span><b>${fmt(sum(act,live))}</b></div><div><span>Feed bags in hand</span><b style="color:${bal<0?'var(--bad)':'inherit'}">${num1(bal)}</b></div><div><span>Today</span><b style="font-size:14px">${!act.length?'—':pend.length?'⏳ Pending':'✅ Reported'}</b></div></div>
+  <div class="row wrap"><button class="btn btn-soft btn-sm" data-act="farmerDetail" data-id="${f.id}">📊 Details</button><button class="btn btn-ghost btn-sm" data-act="farmerForm" data-id="${f.id}">✎ Edit / password</button><button class="btn btn-ghost btn-sm" data-act="assignForm" data-id="${f.id}">🌾 Assign bags</button>${wa?`<a class="btn btn-wa btn-sm" href="${wa}" target="_blank" rel="noopener">☏ WhatsApp</a>`:''}</div></div>`;
+}
+function batchCard(b){
+  const f=farmerById(b.farmerId),[st,sc]=statusOf(b),o=isOwner(),rt=repToday(b),l=live(b);
+  const end=b.status==='Finished'&&b.completedAt?b.completedAt.slice(0,10):D().today,lr=lastRep(b);
+  return `<div class="item"><div class="row between" style="align-items:flex-start"><div style="min-width:0"><span class="chip">${esc(b.id)}</span><h4 style="margin-top:6px">${esc(b.name)}</h4>${o?`<div class="person" style="margin-top:8px">${avatar(f,30)}<small style="color:var(--ink);font-weight:600">${esc(f.name)}</small></div>`:`<small class="muted">${esc(b.breed)} · placed ${dateFmt(b.startDate)}</small>`}</div><div style="text-align:right">${b.status==='Finished'?pill('Finished','neutral'):pill(st,sc)}<div class="small muted" style="margin-top:6px">Day ${dayNo(b,end)}</div></div></div>
+  <div class="bar" style="margin-top:12px"><i style="width:${b.initial?l/b.initial*100:0}%"></i></div>
+  <div class="kv"><div><span>Live now</span><b>${fmt(l)}</b></div><div><span>Placed</span><b>${fmt(b.initial)}</b></div><div><span>Deaths</span><b>${fmt(deaths(b))} <small class="muted" style="font-weight:600">${mortPct(b).toFixed(1)}%</small></b></div><div><span>Avg weight</span><b>${lr?kg(lr.weight):'—'}</b></div><div><span>Feed bags</span><b>${num1(feedUsed(b))}</b></div><div><span>Loaded out</span><b>${fmt(loaded(b))}</b></div></div>
+  <div class="row wrap">${isActive(b)?(rt?pill('✅ Reported today','good'):pill('⏳ Not reported today','warn')):''}</div>
+  <div class="row wrap" style="margin-top:10px"><button class="btn btn-soft btn-sm" data-act="batchDetail" data-id="${b.id}">Details</button>${isActive(b)?`<button class="btn btn-ghost btn-sm" data-act="loadForm" data-id="${b.id}">🚚 Loading</button>`:''}${o?`<button class="btn btn-ghost btn-sm" data-act="batchForm" data-id="${b.id}">✎ Edit</button><button class="btn btn-ghost btn-sm" data-act="batchStatus" data-id="${b.id}" data-s="${isActive(b)?'Finished':'Active'}">${isActive(b)?'✔ Finish':'↺ Reopen'}</button>`:''}</div></div>`;
+}
+function reportCard(r,showFarmer){
+  const b=batchById(r.batchId)||{name:r.batchId,id:r.batchId},f=farmerById(r.farmerId);
+  return `<div class="item"><div class="row between" style="align-items:flex-start"><div class="person">${showFarmer?avatar(f,38):''}<div><strong>${showFarmer?esc(f.name):esc(b.name)}</strong><small>${showFarmer?esc(b.id)+' · ':''}${dateFmt(r.date)}${r.submittedAt?' · '+esc(String(r.submittedAt).slice(11,16)):''}</small></div></div>${isOwner()?`<button class="btn btn-bad btn-sm" data-act="delReport" data-id="${r.id}" title="Delete so the farmer can submit again">↺ Allow re-entry</button>`:''}</div>
+  <div class="kv" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div><span>Dead</span><b style="color:${r.deaths>0?'var(--bad)':'inherit'}">${fmt(r.deaths)}</b></div><div><span>Feed bags</span><b>${num(r.feedBags)}</b></div><div><span>Weight</span><b>${kg(r.weight)}</b></div></div>
+  ${r.notes?`<p class="small muted">“${esc(r.notes)}”</p>`:''}${thumbs(r)}</div>`;
+}
+/* ===== v3: analytics, loading register, filters, deeper details ===== */
+const dk=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const ago=n=>{const d=new Date(D().today+'T00:00:00');d.setDate(d.getDate()-n);return dk(d)};
+function lastN(n,fn){return Array.from({length:n},(_,i)=>{const k=ago(n-1-i),d=new Date(k+'T00:00:00');return {l:(n>10&&(n-1-i)%5)?'':d.toLocaleDateString('en-IN',{day:'2-digit',month:'short'}),v:fn(k)}})}
+const dense=(h,N)=>N>10?h.replace('class="chart"','class="chart dense"'):h;
+const sortR=id=>repsOf(id).slice().sort((a,c)=>a.date.localeCompare(c.date));
+const per1k=b=>b.initial?feedUsed(b)/b.initial*1000:0;
+const gainG=b=>{const r=sortR(b.id);if(r.length<2)return null;const a=r[0],z=r[r.length-1],dd=Math.max(1,(new Date(z.date)-new Date(a.date))/864e5);return (z.weight-a.weight)/dd*1000};
+const bEnd=b=>b.status==='Finished'&&b.completedAt?b.completedAt.slice(0,10):D().today;
+function compl(b,from){const s=from&&from>b.startDate?from:b.startDate,e=bEnd(b);const exp=Math.max(0,Math.round((new Date(e)-new Date(s))/864e5)+1);return {exp,got:repsOf(b.id).filter(r=>r.date>=s&&r.date<=e).length}}
+const pctC=(a,b)=>b?Math.min(100,Math.round(a/b*100)):0;
+const mc=m=>m>=5?'bad':m>=3?'warn':'good';
+const stat=(l,v,s,c='')=>`<div class="stat ${c}"><span>${l}</span><b>${v}</b><small>${s}</small></div>`;
+const hbar=(l,v,mx,txt)=>`<div class="lb"><span class="small" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(l)}</span><div class="hb"><i style="width:${mx?Math.max(2,v/mx*100):0}%"></i></div><b class="small" style="text-align:right">${txt}</b></div>`;
+const opt=(v,l,cur)=>`<option value="${esc(v)}" ${String(cur||'')===String(v)?'selected':''}>${esc(l)}</option>`;
+const fSel=key=>`<select data-chg="${key}"><option value="">All farmers</option>${D().farmers.map(f=>opt(f.id,f.name+' ('+f.code+')',S[key])).join('')}</select>`;
+const bSel=(key,fk)=>`<select data-chg="${key}"><option value="">All batches</option>${D().batches.filter(b=>!S[fk]||b.farmerId===S[fk]).map(b=>opt(b.id,b.id+' · '+b.name,S[key])).join('')}</select>`;
+const srch=(key,ph)=>`<input type="search" data-chg="${key}" value="${esc(S[key]||'')}" placeholder="${ph}">`;
+const dIn=(key,t)=>`<label class="dl">${t}<input type="date" data-chg="${key}" value="${esc(S[key]||'')}"></label>`;
+const clr=keys=>keys.some(k=>S[k])?`<button class="btn btn-ghost btn-sm" data-act="clearF" data-keys="${keys.join(',')}">✕ Clear</button>`:'';
+const skel=()=>`<div class="stats">${'<div class="sk" style="height:86px"></div>'.repeat(4)}</div><div class="cols"><div class="sk" style="height:190px"></div><div class="sk" style="height:190px"></div></div><div class="sk" style="height:230px"></div>`;
+const dlCsv=(name,rows)=>{const csv=rows.map(r=>r.map(c=>'"'+String(c??'').replace(/"/g,'""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)};
+
+/* ---- Analytics ---- */
+function analyticsPage(){
+  if(!isOwner())return '';
+  const d=D(),pd=S.anDays||'30',n=pd==='all'?0:+pd,from=n?ago(n-1):'',fid=S.anFarmer||'',st=S.anSt||'';
+  const bs=d.batches.filter(b=>(!fid||b.farmerId===fid)&&(!st||(st==='active')===isActive(b)));
+  const ids=new Set(bs.map(b=>b.id)),rs=d.reports.filter(r=>ids.has(r.batchId)&&(!from||r.date>=from));
+  const placed=sum(bs,b=>b.initial),dead=sum(bs,deaths),ld=sum(bs,loaded),lv=sum(bs,live),feed=sum(bs,feedUsed),pD=sum(rs,r=>r.deaths),pF=sum(rs,r=>r.feedBags);
+  const wl=bs.map(lastRep).filter(Boolean),avgW=wl.length?sum(wl,r=>r.weight)/wl.length:0;
+  const gs=bs.map(gainG).filter(x=>x!==null),avgG=gs.length?sum(gs,x=>x)/gs.length:0;
+  const cc=bs.map(b=>compl(b,from)),cp=pctC(sum(cc,x=>x.got),sum(cc,x=>x.exp)),mort=placed?dead/placed*100:0;
+  const pk=rs.slice().sort((a,c)=>c.deaths-a.deaths)[0],N=n||60;
+  const bands={};rs.forEach(r=>{const b=batchById(r.batchId),w=Math.min(6,Math.ceil(dayNo(b,r.date)/7));bands[w]=(bands[w]||0)+r.deaths});
+  const bk=[1,2,3,4,5,6].map(w=>[w<6?'Week '+w:'Week 6+',bands[w]||0]),bmx=Math.max(1,...bk.map(x=>x[1]));
+  const fm={};bs.forEach(b=>(fm[b.farmerId]=fm[b.farmerId]||[]).push(b));
+  const fr=Object.keys(fm).map(id=>{const x=fm[id],pl=sum(x,b=>b.initial),c=x.map(b=>compl(b,from)),w=x.map(lastRep).filter(Boolean);return {f:farmerById(id),n:x.length,live:sum(x,live),mort:pl?sum(x,deaths)/pl*100:0,p1k:pl?sum(x,feedUsed)/pl*1000:0,w:w.length?sum(w,r=>r.weight)/w.length:0,cp:pctC(sum(c,y=>y.got),sum(c,y=>y.exp))}}).sort((a,b)=>a.mort-b.mort);
+  const per=pd==='all'?'all time':'last '+pd+' days';
+  return `<div class="page-head"><div><h1>Analytics</h1><p>Mortality, feed, growth and reporting — ${per}.</p></div></div>
+  <div class="filters">${fSel('anFarmer')}<select data-chg="anSt">${opt('','All batches',st)}${opt('active','Active only',st)}${opt('finished','Finished only',st)}</select><select data-chg="anDays">${opt('7','Last 7 days',pd)}${opt('30','Last 30 days',pd)}${opt('all','All time',pd)}</select></div>
+  <div class="stats fade">${stat('🐥 Live chicks',fmt(lv),`of ${fmt(placed)} placed · ${bs.length} batches`)}${stat('☠️ Mortality',mort.toFixed(2)+'%',`${fmt(dead)} deaths · ${fmt(pD)} in period`,mort>=5?'bad':'')}${stat('🌾 Feed bags used',num1(feed),`${num1(pF)} in period · ${placed?num1(feed/placed*1000):0} per 1000 birds`)}${stat('⚖️ Avg weight',avgW?kg(avgW):'—',avgG?`gain ≈ ${Math.round(avgG)} g/day`:'latest report per batch')}${stat('📋 Reporting rate',cp+'%',`${sum(cc,x=>x.got)} of ${sum(cc,x=>x.exp)} expected`,cp<80?'bad':'good')}${stat('🚚 Loaded out',fmt(ld),placed?Math.round(ld/placed*100)+'% of placed':'—')}${stat('📉 Peak death day',pk&&pk.deaths?fmt(pk.deaths):'—',pk&&pk.deaths?dateFmt(pk.date)+' · '+esc(pk.batchId):'no deaths in period')}${stat('📅 Reports',fmt(rs.length),rs.length?'avg '+num1(pD/rs.length)+' deaths / report':'none in period')}</div>
+  <div class="cols"><div class="card"><div class="card-h"><h3>Deaths per day</h3>${pill(per,'neutral')}</div>${dense(barChart(lastN(N,k=>sum(rs.filter(r=>r.date===k),r=>r.deaths)),true),N)}</div>
+  <div class="card"><div class="card-h"><h3>Feed bags per day</h3>${pill(per,'neutral')}</div>${dense(barChart(lastN(N,k=>sum(rs.filter(r=>r.date===k),r=>r.feedBags))),N)}</div></div>
+  <div class="cols"><div class="card"><div class="card-h"><h3>Avg chick weight (kg)</h3>${pill('daily average','neutral')}</div>${dense(barChart(lastN(N,k=>{const a=rs.filter(r=>r.date===k);return a.length?sum(a,r=>r.weight)/a.length:0})),N)}</div>
+  <div class="card"><div class="card-h"><h3>Deaths by bird age</h3>${pill('total deaths','neutral')}</div>${bk.map(([l,v])=>hbar(l,v,bmx,fmt(v))).join('')}</div></div>
+  ${!fid?`<div class="card" style="margin-bottom:14px"><div class="card-h"><h3>Farmer comparison</h3><small class="muted">best mortality first</small></div>${fr.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>Farmer</th><th>Batches</th><th>Live</th><th>Mortality</th><th>Bags/1000</th><th>Avg wt</th><th>Reporting</th></tr></thead><tbody>${fr.map(x=>`<tr><td><b>${esc(x.f.name)}</b><br><small class="muted">${esc(x.f.code)}</small></td><td>${x.n}</td><td>${fmt(x.live)}</td><td>${pill(x.mort.toFixed(2)+'%',mc(x.mort))}</td><td>${num1(x.p1k)}</td><td>${x.w?kg(x.w):'—'}</td><td>${pill(x.cp+'%',x.cp>=90?'good':x.cp>=70?'warn':'bad')}</td></tr>`).join('')}</tbody></table></div>`:'<p class="small muted">No data.</p>'}</div>`:''}
+  <div class="card"><div class="card-h"><h3>Batch comparison</h3><small class="muted">tap a row for details</small></div>${bs.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>Batch</th><th>Farmer</th><th>Day</th><th>Live</th><th>Mortality</th><th>Bags/1000</th><th>Wt</th><th>Gain g/d</th><th>Status</th></tr></thead><tbody>${bs.slice().sort((a,b)=>mortPct(b)-mortPct(a)).map(b=>{const g=gainG(b),lr=lastRep(b);return `<tr data-act="batchDetail" data-id="${b.id}" style="cursor:pointer"><td><b>${esc(b.id)}</b></td><td>${esc(first(farmerById(b.farmerId).name))}</td><td>${dayNo(b,bEnd(b))}</td><td>${fmt(live(b))}</td><td>${pill(mortPct(b).toFixed(2)+'%',mc(mortPct(b)))}</td><td>${num1(per1k(b))}</td><td>${lr?lr.weight.toFixed(2):'—'}</td><td>${g===null?'—':Math.round(g)}</td><td>${b.status==='Finished'?pill('Finished','neutral'):pill(...statusOf(b))}</td></tr>`}).join('')}</tbody></table></div>`:empty('📈','No batches match','Change the filters above.')}</div>`;
+}
+
+/* ---- Loading register ---- */
+function ldList(){
+  const q=(S.ldQ||'').toLowerCase();
+  let ds=D().dispatches.filter(x=>batchById(x.batchId)).map(x=>({...x,b:batchById(x.batchId)}));
+  if(S.ldFarmer)ds=ds.filter(x=>x.b.farmerId===S.ldFarmer);
+  if(S.ldBatch)ds=ds.filter(x=>x.batchId===S.ldBatch);
+  if(S.ldFrom)ds=ds.filter(x=>x.date>=S.ldFrom);
+  if(S.ldTo)ds=ds.filter(x=>x.date<=S.ldTo);
+  if(q)ds=ds.filter(x=>[x.truckNo,x.challan,x.driver,x.destination].some(v=>String(v||'').toLowerCase().includes(q)));
+  return ds.sort((a,b)=>b.date.localeCompare(a.date)||String(b.id).localeCompare(String(a.id)));
+}
+function loadingPage(){
+  if(!isOwner())return '';
+  const ds=ldList(),tot=sum(ds,x=>x.quantity),dest={},trk={};
+  ds.forEach(x=>{const k=x.destination||'Not specified';dest[k]=(dest[k]||0)+x.quantity;if(x.truckNo)trk[x.truckNo]=1});
+  const dl=Object.entries(dest).sort((a,b)=>b[1]-a[1]).slice(0,6),mx=dl.length?dl[0][1]:0,big=ds.slice().sort((a,b)=>b.quantity-a.quantity)[0],cap=S.more.ld||30;
+  const keys=['ldFarmer','ldBatch','ldFrom','ldTo','ldQ'];
+  return `<div class="page-head"><div><h1>Loading register</h1><p>Every truck of birds loaded out — filter, review and export.</p></div><div class="row wrap"><button class="btn btn-soft" data-act="exportLoad">⇩ Export CSV</button><button class="btn btn-primary" data-act="loadPick">＋ Record loading</button></div></div>
+  <div class="filters">${fSel('ldFarmer')}${bSel('ldBatch','ldFarmer')}${dIn('ldFrom','From')}${dIn('ldTo','To')}${srch('ldQ','Search truck, challan, driver, place')}${clr(keys)}</div>
+  <div class="stats fade">${stat('🚚 Trips',fmt(ds.length),`${Object.keys(trk).length} different trucks`)}${stat('🐔 Birds loaded',fmt(tot),'in current filter')}${stat('⌀ Avg per trip',ds.length?fmt(Math.round(tot/ds.length)):'—','birds')}${stat('🏆 Biggest load',big?fmt(big.quantity):'—',big?dateFmt(big.date)+' · '+esc(big.batchId):'')}</div>
+  <div class="cols"><div class="card"><div class="card-h"><h3>Birds loaded · last 14 days</h3></div>${dense(barChart(lastN(14,k=>sum(ds.filter(x=>x.date===k),x=>x.quantity))),14)}</div>
+  <div class="card"><div class="card-h"><h3>By destination</h3></div>${dl.length?dl.map(([l,v])=>hbar(l,v,mx,fmt(v))).join(''):'<p class="small muted">No data</p>'}</div></div>
+  <div class="card">${ds.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>Date</th><th>Farmer · Batch</th><th>Birds</th><th>Truck</th><th>Challan</th><th>Driver</th><th>To</th><th></th></tr></thead><tbody>${ds.slice(0,cap).map(x=>`<tr><td>${dateFmt(x.date)}</td><td><b>${esc(farmerById(x.b.farmerId).name)}</b><br><small class="muted">${esc(x.batchId)}</small></td><td><b>${fmt(x.quantity)}</b></td><td>${esc(x.truckNo||'—')}</td><td>${esc(x.challan||'—')}</td><td>${esc(x.driver||'—')}</td><td>${esc(x.destination||'—')}</td><td><button class="btn btn-bad btn-sm" data-act="delLoad" data-id="${x.id}">✕</button></td></tr>`).join('')}</tbody></table></div>${ds.length>cap?`<div style="text-align:center;margin-top:12px"><button class="btn btn-ghost" data-act="moreLd">Show more (${ds.length-cap} left)</button></div>`:''}`:empty('🚚','No loading entries','Change filters or record a loading from a batch.')}</div>`;
+}
+
+/* ---- Farmers / Batches / Reports with filters ---- */
+function farmersPage(){
+  if(!isOwner())return '';
+  const q=(S.farQ||'').toLowerCase(),sf=S.farSt||'';
+  const fs=D().farmers.filter(f=>{const act=D().batches.filter(b=>b.farmerId===f.id&&isActive(b));if(sf==='active'&&f.status==='Inactive')return false;if(sf==='inactive'&&f.status!=='Inactive')return false;if(sf==='pend'&&!act.some(b=>!repToday(b)))return false;if(sf==='neg'&&bagBal(f.id)>=0)return false;return !q||[f.name,f.code,f.village,f.phone].some(v=>String(v||'').toLowerCase().includes(q))});
+  return `<div class="page-head"><div><h1>Farmers</h1><p>Profiles, photos, login codes and feed stock.</p></div><button class="btn btn-primary" data-act="farmerForm">＋ Add farmer</button></div>
+  <div class="filters">${srch('farQ','Search name, code, village, phone')}<select data-chg="farSt">${opt('','All farmers',sf)}${opt('active','Active',sf)}${opt('inactive','Inactive',sf)}${opt('pend','Not reported today',sf)}${opt('neg','Feed stock below zero',sf)}</select>${clr(['farQ','farSt'])}</div>
+  <p class="small muted" style="margin-bottom:10px">${fs.length} of ${D().farmers.length} farmers</p>
+  <div class="cards">${fs.map(farmerCard).join('')||empty('👥','No farmers found','Try different filters.')}</div>`;
+}
+function batchesPage(){
+  const t=S.bat,o=isOwner(),q=(S.batQ||'').toLowerCase(),so=S.batSort||'new';
+  let bs=D().batches.filter(b=>t==='All'||(t==='Active'?isActive(b):!isActive(b)));
+  if(S.batFarmer)bs=bs.filter(b=>b.farmerId===S.batFarmer);
+  if(S.batSt)bs=bs.filter(b=>S.batSt==='pend'?(isActive(b)&&!repToday(b)):b.status!=='Finished'&&statusOf(b)[1]===S.batSt);
+  if(q)bs=bs.filter(b=>[b.id,b.name,b.breed,farmerById(b.farmerId).name].some(v=>String(v||'').toLowerCase().includes(q)));
+  const wt=b=>(lastRep(b)||{weight:0}).weight;
+  bs=bs.slice().sort(so==='mort'?(a,c)=>mortPct(c)-mortPct(a):so==='live'?(a,c)=>live(c)-live(a):so==='wt'?(a,c)=>wt(c)-wt(a):(a,c)=>c.startDate.localeCompare(a.startDate));
+  const pl=sum(bs,b=>b.initial);
+  return `<div class="page-head"><div><h1>${o?'Chick batches':'My batches'}</h1><p>Placements, live balance, mortality, feed and loading.</p></div>${o?'<button class="btn btn-primary" data-act="batchForm">＋ New batch</button>':''}</div>
+  <div class="tabs">${['Active','Finished','All'].map(x=>`<button class="${t===x?'on':''}" data-act="batTab" data-t="${x}">${x}</button>`).join('')}</div>
+  <div class="filters">${srch('batQ','Search batch, farmer, breed')}${o?fSel('batFarmer'):''}<select data-chg="batSt">${opt('','Any status',S.batSt)}${opt('good','On track',S.batSt)}${opt('warn','Monitor',S.batSt)}${opt('bad','Needs attention',S.batSt)}${opt('pend','Not reported today',S.batSt)}</select><select data-chg="batSort">${opt('new','Newest first',so)}${opt('mort','Highest mortality',so)}${opt('live','Most live birds',so)}${opt('wt','Heaviest',so)}</select>${clr(['batQ','batFarmer','batSt'])}</div>
+  <div class="stats"><div class="stat"><span>Batches</span><b>${bs.length}</b><small>in this view</small></div><div class="stat"><span>Placed</span><b>${fmt(pl)}</b><small>chicks</small></div><div class="stat"><span>Live now</span><b>${fmt(sum(bs,live))}</b><small>${fmt(sum(bs,loaded))} loaded out</small></div><div class="stat"><span>Mortality</span><b>${pl?(sum(bs,deaths)/pl*100).toFixed(2):'0.00'}%</b><small>${fmt(sum(bs,deaths))} deaths</small></div></div>
+  <div class="cards">${bs.map(batchCard).join('')||empty('🐣','No batches here','Try different filters.')}</div>`;
+}
+function reportsPage(){
+  if(!isOwner())return '';
+  const d=D();let rs=d.reports.slice().sort((a,b)=>b.date.localeCompare(a.date)||String(b.submittedAt).localeCompare(String(a.submittedAt)));
+  if(S.rep==='today')rs=rs.filter(r=>r.date===d.today);else if(S.rep==='7')rs=rs.filter(r=>r.date>=ago(6));
+  if(S.repFarmer)rs=rs.filter(r=>r.farmerId===S.repFarmer);
+  if(S.repBatch)rs=rs.filter(r=>r.batchId===S.repBatch);
+  if(S.repFrom)rs=rs.filter(r=>r.date>=S.repFrom);
+  if(S.repTo)rs=rs.filter(r=>r.date<=S.repTo);
+  if(S.repDead==='1')rs=rs.filter(r=>r.deaths>0);
+  const q=(S.repQ||'').toLowerCase();if(q)rs=rs.filter(r=>String(r.notes||'').toLowerCase().includes(q)||farmerById(r.farmerId).name.toLowerCase().includes(q));
+  const cap=S.more.rep||40,shown=rs.slice(0,cap),pend=pendingBatches().filter(b=>(!S.repFarmer||b.farmerId===S.repFarmer)&&(!S.repBatch||b.id===S.repBatch));
+  return `<div class="page-head"><div><h1>Daily reports</h1><p>One report per batch per day, with photo proof.</p></div><button class="btn btn-soft" data-act="exportCsv">⇩ Export CSV</button></div>
+  <div class="tabs">${[['today','Today'],['7','Last 7 days'],['all','All']].map(([k,l])=>`<button class="${S.rep===k?'on':''}" data-act="repTab" data-t="${k}">${l}</button>`).join('')}</div>
+  <div class="filters">${fSel('repFarmer')}${bSel('repBatch','repFarmer')}${dIn('repFrom','From')}${dIn('repTo','To')}<select data-chg="repDead">${opt('','All reports',S.repDead)}${opt('1','With deaths only',S.repDead)}</select>${srch('repQ','Search notes or farmer')}${clr(['repFarmer','repBatch','repFrom','repTo','repDead','repQ'])}</div>
+  <div class="stats"><div class="stat"><span>Reports</span><b>${fmt(rs.length)}</b><small>in this view</small></div><div class="stat ${sum(rs,r=>r.deaths)?'bad':''}"><span>Deaths</span><b>${fmt(sum(rs,r=>r.deaths))}</b><small>${rs.length?num1(sum(rs,r=>r.deaths)/rs.length):0} per report</small></div><div class="stat"><span>Feed bags</span><b>${num1(sum(rs,r=>r.feedBags))}</b><small>${rs.length?num1(sum(rs,r=>r.feedBags)/rs.length):0} per report</small></div><div class="stat"><span>Avg weight</span><b>${rs.length?kg(sum(rs,r=>r.weight)/rs.length):'—'}</b><small>of reports shown</small></div></div>
+  ${S.rep==='today'&&pend.length?`<div class="card" style="margin-bottom:14px"><div class="card-h"><h3>⏳ Not reported yet (${pend.length})</h3></div><div class="row wrap">${pend.map(b=>`<span class="pill warn">${esc(farmerById(b.farmerId).name)} · ${esc(b.id)}</span>`).join('')}</div></div>`:''}
+  <div class="cards">${shown.map(r=>reportCard(r,true)).join('')||empty('📋',S.rep==='today'?'No reports yet today':'No reports found','Try different filters.')}</div>
+  ${rs.length>cap?`<div style="text-align:center;margin-top:16px"><button class="btn btn-ghost" data-act="moreRep">Show more (${rs.length-cap} left)</button></div>`:''}`;
+}
+
+/* ---- deeper details ---- */
+function batchExtra(b,rs){
+  const n=rs.length,pk=rs.slice().sort((a,c)=>c.deaths-a.deaths)[0],g=gainG(b),c=compl(b,'');
+  const kvs=[['Age','Day '+dayNo(b,bEnd(b))],['Avg deaths/day',n?num1(deaths(b)/n):'—'],['Peak death day',pk&&pk.deaths?pk.deaths+' · '+dateFmt(pk.date):'—'],['Bags / 1000 birds',num1(per1k(b))],['Avg bags/day',n?num1(feedUsed(b)/n):'—'],['Weight gain/day',g===null?'—':Math.round(g)+' g'],['Reports sent',c.got+'/'+c.exp+' ('+pctC(c.got,c.exp)+'%)'],['Loaded out',fmt(loaded(b))+' ('+(b.initial?Math.round(loaded(b)/b.initial*100):0)+'%)'],['Last report',n?dateFmt(rs[n-1].date):'—']];
+  return `<div class="kv" style="grid-template-columns:repeat(3,minmax(0,1fr))">${kvs.map(([l,v])=>`<div><span>${l}</span><b style="font-size:14px">${v}</b></div>`).join('')}</div><div class="grid2"><div><h4 style="margin:8px 0 0">Deaths · 14 days</h4>${dense(barChart(lastN(14,k=>sum(rs.filter(r=>r.date===k),r=>r.deaths)),true),14)}</div><div><h4 style="margin:8px 0 0">Weight (kg) · 14 days</h4>${dense(barChart(lastN(14,k=>{const r=rs.find(x=>x.date===k);return r?r.weight:0})),14)}</div></div>`;
+}
+function farmerDetailModal(id){
+  const f=farmerById(id),bs=D().batches.filter(b=>b.farmerId===id),rs=D().reports.filter(r=>r.farmerId===id).sort((a,b)=>b.date.localeCompare(a.date));
+  const pl=sum(bs,b=>b.initial),de=sum(bs,deaths),c=bs.map(b=>compl(b,'')),cp=pctC(sum(c,x=>x.got),sum(c,x=>x.exp)),fl=D().bagflow.filter(x=>x.farmerId===id),wl=bs.filter(isActive).map(lastRep).filter(Boolean);
+  const kvs=[['Batches',bs.filter(isActive).length+' active / '+bs.length],['Chicks placed',fmt(pl)],['Live now',fmt(sum(bs,live))],['Mortality',(pl?de/pl*100:0).toFixed(2)+'%'],['Bags received',num1(bagsIn(id))],['Bags used',num1(bagsUsed(id))],['Bags in hand',num1(bagBal(id))],['Bags / 1000 birds',pl?num1(bagsUsed(id)/pl*1000):'—'],['Avg weight',wl.length?kg(sum(wl,r=>r.weight)/wl.length):'—'],['Reporting rate',cp+'%'],['Loaded out',fmt(sum(bs,loaded))],['Bag requests open',fl.filter(x=>x.status==='Requested'||x.status==='Pending').length]];
+  openModal(esc(f.name),`<div class="person" style="margin-bottom:8px">${avatar(f,56)}<div><strong>${esc(f.name)}</strong><small>${esc(f.code)} · ${esc(f.village)} · ${esc(f.phone)}</small></div></div>
+  <div class="kv" style="grid-template-columns:repeat(3,minmax(0,1fr))">${kvs.map(([l,v])=>`<div><span>${l}</span><b style="font-size:14px">${v}</b></div>`).join('')}</div>
+  <h4 style="margin:8px 0 0">Deaths · 14 days</h4>${dense(barChart(lastN(14,k=>sum(rs.filter(r=>r.date===k),r=>r.deaths)),true),14)}
+  <h4 style="margin:16px 0 8px">Batches</h4>${bs.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>Batch</th><th>Live</th><th>Mort.</th><th>Bags</th><th>Wt</th><th></th></tr></thead><tbody>${bs.map(b=>{const lr=lastRep(b);return `<tr><td><b>${esc(b.id)}</b><br><small class="muted">${b.status==='Finished'?'Finished':'Day '+dayNo(b,bEnd(b))}</small></td><td>${fmt(live(b))}</td><td>${pill(mortPct(b).toFixed(1)+'%',mc(mortPct(b)))}</td><td>${num1(feedUsed(b))}</td><td>${lr?lr.weight.toFixed(2):'—'}</td><td><button class="btn btn-soft btn-sm" data-act="batchDetail" data-id="${b.id}">Open</button></td></tr>`}).join('')}</tbody></table></div>`:'<p class="small muted">No batches yet.</p>'}
+  <h4 style="margin:16px 0 8px">Recent reports</h4>${rs.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>Date</th><th>Batch</th><th>Dead</th><th>Feed</th><th>Wt</th></tr></thead><tbody>${rs.slice(0,8).map(r=>`<tr><td>${dateFmt(r.date)}</td><td>${esc(r.batchId)}</td><td>${r.deaths}</td><td>${num(r.feedBags)}</td><td>${r.weight.toFixed(2)}</td></tr>`).join('')}</tbody></table></div>`:'<p class="small muted">No reports yet.</p>'}`,true);
+}
+
+/* ---- feed bags: owner ---- */
+const bagPill=s=>({Requested:pill('Requested','warn'),Pending:pill('Awaiting farmer','teal'),Accepted:pill('Accepted','good'),Rejected:pill('Rejected','bad'),Declined:pill('Declined','bad'),Cancelled:pill('Cancelled','neutral')}[s]||pill(s,'neutral'));
+function bagRow(x,owner){const f=farmerById(x.farmerId),dt=x.respondedAt||x.assignedAt||x.requestedAt;return `<div class="row between" style="padding:10px 0;border-top:1px solid #e9f0f4"><div class="person">${owner?avatar(f,34):`<span style="font-size:22px">${x.origin==='owner'?'📦':'🙋'}</span>`}<div><strong>${num(x.qty)} bags${x.batchId?' · '+esc(x.batchId):''}</strong><small>${owner?esc(f.name)+' · ':''}${x.origin==='owner'?'Assigned':'Requested'} ${dtFmt(dt)}${x.ownerNote?' · '+esc(x.ownerNote):''}${x.note?' · “'+esc(x.note)+'”':''}</small></div></div>${bagPill(x.status)}</div>`}
+function ownerBags(){
+  const d=D(),reqs=d.bagflow.filter(x=>x.status==='Requested'),wait=d.bagflow.filter(x=>x.status==='Pending'),stock=sum(d.farmers,f=>bagBal(f.id));
+  const led=d.bagflow.slice().sort((a,b)=>String(b.respondedAt||b.assignedAt||b.requestedAt).localeCompare(String(a.respondedAt||a.assignedAt||a.requestedAt)));
+  const cap=S.more.led||20;
+  return `<div class="page-head"><div><h1>Feed bags</h1><p>Assign bags, answer requests and track stock with each farmer.</p></div><button class="btn btn-primary" data-act="assignForm">＋ Assign bags</button></div>
+  <div class="stats"><div class="stat"><span>📦 Bags with farmers</span><b>${num1(stock)}</b><small>accepted − used</small></div><div class="stat ${reqs.length?'':''}"><span>📨 Open requests</span><b>${reqs.length}</b><small>${num(sum(reqs,x=>x.qty))} bags asked</small></div><div class="stat"><span>⏳ Awaiting accept</span><b>${wait.length}</b><small>${num(sum(wait,x=>x.qty))} bags sent</small></div></div>
+  ${reqs.length?`<div class="card" style="margin-bottom:14px"><div class="card-h"><h3>📨 Farmer requests</h3></div>${reqs.map(x=>{const f=farmerById(x.farmerId);return `<div style="padding:12px 0;border-top:1px solid #e9f0f4"><div class="row between"><div class="person">${avatar(f,38)}<div><strong>${esc(f.name)} wants ${num(x.qty)} bags</strong><small>${x.batchId?esc(x.batchId)+' · ':''}${dtFmt(x.requestedAt)} · in hand: ${num1(bagBal(f.id))}</small></div></div></div>${x.note?`<p class="small muted" style="margin:6px 0 0 50px">“${esc(x.note)}”</p>`:''}<div class="row wrap" style="margin:10px 0 0 50px"><button class="btn btn-good btn-sm" data-act="respReq" data-id="${x.id}" data-d="approve">✔ Approve</button><button class="btn btn-bad btn-sm" data-act="respReq" data-id="${x.id}" data-d="decline">✕ Decline</button></div></div>`}).join('')}</div>`:''}
+  ${wait.length?`<div class="card" style="margin-bottom:14px"><div class="card-h"><h3>⏳ Waiting for farmer to accept</h3></div>${wait.map(x=>`${bagRow(x,true)}<div style="text-align:right"><button class="btn btn-ghost btn-sm" data-act="cancelBags" data-id="${x.id}">Cancel</button></div>`).join('')}</div>`:''}
+  <div class="card" style="margin-bottom:14px"><div class="card-h"><h3>Stock with each farmer</h3></div>${d.farmers.map(f=>{const i=bagsIn(f.id),u=bagsUsed(f.id),bal=i-u;return `<div class="row between" style="padding:10px 0;border-top:1px solid #e9f0f4"><div class="person">${avatar(f,38)}<div><strong>${esc(f.name)}</strong><small>Accepted ${num1(i)} · Used ${num1(u)}</small></div></div><div style="text-align:right">${pill(num1(bal)+' in hand',bal<0?'bad':bal<15?'warn':'good')}<div><button class="linkbtn" style="padding:4px 0;font-size:12.5px" data-act="assignForm" data-id="${f.id}">+ assign</button></div></div></div>`}).join('')||empty('👥','No farmers yet','')}</div>
+  <div class="card"><div class="card-h"><h3>Ledger</h3></div>${led.slice(0,cap).map(x=>bagRow(x,true)).join('')||empty('🌾','No bag entries yet','')}${led.length>cap?`<div style="text-align:center;margin-top:10px"><button class="btn btn-ghost btn-sm" data-act="moreLed">Show more</button></div>`:''}</div>`;
+}
+function accountPage(){
+  return `<div class="page-head"><div><h1>Account</h1><p>Owner sign-in and security.</p></div></div>
+  <div class="cards"><div class="card"><div class="card-h"><h3>🔐 Change owner password</h3></div><form data-form="ownerPw">${passField('oldPw','Current password')}${passField('newPw','New password (min 6 characters)')}${passField('newPw2','Repeat new password')}<button class="btn btn-primary btn-block" type="submit">Update password</button></form></div>
+  <div class="card"><div class="card-h"><h3>ℹ️ How farmer passwords work</h3></div><p class="small muted" style="line-height:1.6">• You set the password when you add a farmer (Farmers → Edit to set a new one).<br>• A farmer can change their own password from the login screen or Profile by entering the name, phone and village you saved for them.<br>• Keep those three details correct — they are the proof of identity.<br>• All records are stored in your Google Sheet; photos are in the Google Drive folder “Sunil Poultry Photos”.</p></div></div>`;
+}
+
+/* ============================================================
+   FARMER PAGES
+   ============================================================ */
+function reportForm(b){
+  const k=b.id,l=live(b);
+  const stepper=(id,name,step,ph,extra='')=>`<div class="stepper"><button type="button" data-act="step" data-t="${id}" data-d="-${step}" aria-label="less">−</button><input id="${id}" name="${name}" type="number" inputmode="decimal" min="0" step="any" placeholder="${ph}" ${extra}><button type="button" data-act="step" data-t="${id}" data-d="${step}" aria-label="more">+</button></div>`;
+  return `<div class="card" style="margin-bottom:14px"><div class="card-h"><div><h3>${esc(b.name)}</h3><small class="muted">${esc(b.id)} · ${fmt(l)} live chicks · Day ${dayNo(b,D().today)}</small></div>${pill('⏳ Pending','warn')}</div>
+  <form data-form="report" data-batch="${k}" novalidate>
+   <div class="rsec"><h4>🌾 Feed bags used <span class="req">PHOTO REQUIRED</span></h4>${stepper('feed-'+k,'feed',0.5,'0')}${photoTile('feed-'+k,'Tap to add photo of feed bags','🌾')}</div>
+   <div class="rsec"><h4>🩺 Dead chicks <span class="req">PHOTO IF ANY</span></h4>${stepper('dead-'+k,'dead',1,'0')}<button type="button" class="btn btn-soft btn-sm" style="margin-top:8px" data-act="zero" data-t="dead-${k}">No deaths today</button>${photoTile('mort-'+k,'Photo of dead chicks (if any)','🩺')}</div>
+   <div class="rsec"><h4>⚖️ Weight of 1 chick (kg) <span class="req">PHOTO REQUIRED</span></h4>${stepper('wt-'+k,'weight',0.05,'e.g. 1.45')}${photoTile('wt-'+k,'Tap to add photo of the weighing','⚖️')}</div>
+   <div class="field"><label>Notes (optional)</label><textarea name="notes" maxlength="500" placeholder="Anything the owner should know"></textarea></div>
+   <button class="btn btn-primary btn-block" type="submit">Submit today's report</button>
+   <p class="small muted" style="text-align:center;margin-top:8px">Only one report per batch per day — it can’t be edited after submitting.</p>
+  </form></div>`;
+}
+function reportedCard(b,r){
+  return `<div class="card" style="margin-bottom:14px"><div class="card-h"><div><h3>${esc(b.name)}</h3><small class="muted">${esc(b.id)} · ${fmt(live(b))} live chicks</small></div>${pill('✅ Reported','good')}</div>
+  <div class="kv" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div><span>Feed bags</span><b>${num(r.feedBags)}</b></div><div><span>Dead</span><b>${fmt(r.deaths)}</b></div><div><span>Weight</span><b>${kg(r.weight)}</b></div></div>
+  ${r.notes?`<p class="small muted">“${esc(r.notes)}”</p>`:''}${thumbs(r)}<p class="small muted" style="margin-top:10px">Submitted ${dtFmt(r.submittedAt)} · next report opens tomorrow.</p></div>`;
+}
+function farmerToday(){
+  const f=farmerById(D().me.farmerId),act=D().batches.filter(isActive),pend=pendingBatches(),wait=D().bagflow.filter(x=>x.status==='Pending');
+  const dayLbl=new Date(D().today+'T00:00:00').toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long'});
+  let banner;
+  if(!act.length)banner=`<div class="banner info"><div class="big">🐣</div><div><h2>No active batch</h2><p>The owner has not assigned a running batch to you yet.</p></div></div>`;
+  else if(!pend.length)banner=`<div class="banner good"><div class="big">✅</div><div><h2>Today's report submitted</h2><p>Thank you ${esc(first(f.name))}! ${act.length>1?'All '+act.length+' batches are reported.':'See you tomorrow.'}</p></div></div>`;
+  else banner=`<div class="banner warn"><div class="big">⏳</div><div><h2>Today's report is pending</h2><p>${act.length-pend.length?`${act.length-pend.length} of ${act.length} batches done. `:''}Fill the form below${pend.length>1?' for each batch':''}.</p></div></div>`;
+  return `<div class="page-head"><div><h1>Namaste, ${esc(first(f.name))} 👋</h1><p>${dayLbl}</p></div></div>${banner}
+  ${wait.length?`<div class="banner info" style="cursor:pointer" data-act="go" data-p="bags"><div class="big">📦</div><div><h2>${num(sum(wait,x=>x.qty))} feed bags sent to you</h2><p>Tap to accept once you receive them.</p></div></div>`:''}
+  ${act.map(b=>{const r=repToday(b);return r?reportedCard(b,r):reportForm(b)}).join('')}`;
+}
+function farmerBags(){
+  const f=farmerById(D().me.farmerId),bal=bagBal(f.id),wait=D().bagflow.filter(x=>x.status==='Pending'),hist=D().bagflow.slice().sort((a,b)=>String(b.respondedAt||b.assignedAt||b.requestedAt).localeCompare(String(a.respondedAt||a.assignedAt||a.requestedAt)));
+  const cap=S.more.led||20;
+  return `<div class="page-head"><div><h1>Feed bags</h1><p>Bags sent by the owner, what you used and what is left.</p></div><button class="btn btn-primary" data-act="reqForm">🙋 Request bags</button></div>
+  <div class="stats"><div class="stat ${bal<0?'bad':'good'}"><span>📦 Bags in hand</span><b>${num1(bal)}</b><small>accepted − used</small></div><div class="stat"><span>Accepted so far</span><b>${num1(bagsIn(f.id))}</b><small>total received</small></div><div class="stat"><span>Used so far</span><b>${num1(bagsUsed(f.id))}</b><small>from daily reports</small></div></div>
+  ${wait.map(x=>`<div class="banner info" style="display:block"><h2>📦 ${num(x.qty)} bags sent to you</h2><p>${x.batchId?'For '+esc(x.batchId)+'. ':''}${x.ownerNote?esc(x.ownerNote)+'. ':''}Sent ${dtFmt(x.assignedAt)}. Accept only after the bags have reached you.</p><div class="grid2" style="margin-top:12px"><button class="btn btn-good" data-act="respAsg" data-id="${x.id}" data-d="accept">✔ Accept bags</button><button class="btn btn-bad" data-act="respAsg" data-id="${x.id}" data-d="reject">✕ Not received</button></div></div>`).join('')}
+  <div class="card"><div class="card-h"><h3>History</h3></div>${hist.slice(0,cap).map(x=>bagRow(x,false)+(x.status==='Requested'?`<div style="text-align:right"><button class="btn btn-ghost btn-sm" data-act="cancelBags" data-id="${x.id}">Cancel request</button></div>`:'')).join('')||empty('🌾','No bag entries yet','Ask the owner for bags with “Request bags”.')}${hist.length>cap?`<div style="text-align:center;margin-top:10px"><button class="btn btn-ghost btn-sm" data-act="moreLed">Show more</button></div>`:''}</div>`;
+}
+function historyPage(){
+  const rs=D().reports.slice().sort((a,b)=>b.date.localeCompare(a.date)),cap=S.more.rep||20;
+  return `<div class="page-head"><div><h1>Report history</h1><p>Everything you have submitted.</p></div></div><div class="cards">${rs.slice(0,cap).map(r=>reportCard(r,false)).join('')||empty('🕘','No reports yet','')}</div>${rs.length>cap?`<div style="text-align:center;margin-top:16px"><button class="btn btn-ghost" data-act="moreRep">Show more</button></div>`:''}`;
+}
+function profilePage(){
+  const f=farmerById(D().me.farmerId);
+  return `<div class="page-head"><div><h1>My profile</h1><p>Your details are set by the owner.</p></div></div>
+  <div class="cards"><div class="card"><div class="person" style="gap:16px">${avatar(f,84)}<div><h3 style="font-size:20px">${esc(f.name)}</h3><span class="chip">${esc(f.code)}</span></div></div><div class="kv"><div><span>Phone</span><b style="font-size:14px">${esc(f.phone)}</b></div><div><span>Village</span><b style="font-size:14px">${esc(f.village)}</b></div></div><button class="btn btn-ghost btn-block" data-act="logout">↪ Sign out</button></div>
+  <div class="card"><div class="card-h"><h3>🔐 Change password</h3></div><p class="small muted" style="margin-bottom:12px">To change your password, enter your saved details exactly as the owner registered them.</p>${resetFields(f.code,true)}</div></div>`;
+}
+function resetFields(code,locked){
+  return `<form data-form="reset" novalidate><div class="field"><label>Farmer code</label><input name="code" value="${esc(code||'')}" ${locked?'readonly':''} autocapitalize="characters" placeholder="e.g. F3"></div><div class="field"><label>Full name (as saved)</label><input name="name" autocomplete="off" placeholder="Your full name"></div><div class="field"><label>Phone number (as saved)</label><input name="phone" type="tel" inputmode="numeric" maxlength="14" autocomplete="off" placeholder="10-digit mobile"></div><div class="field"><label>Village / location (as saved)</label><input name="village" autocomplete="off" placeholder="Your village"></div>${passField('np','New password (min 4 characters)')}${passField('np2','Repeat new password')}<button class="btn btn-primary btn-block" type="submit">Change password</button></form>`;
+}
+
+/* ============================================================
+   MODALS / FORMS
+   ============================================================ */
+function farmerFormModal(id){
+  const f=id?farmerById(id):null;delete PH.farmerPhoto;
+  openModal(f?'Edit farmer':'Add a farmer',`<form data-form="farmer" data-id="${f?f.id:''}" novalidate>
+   <div class="row" style="gap:14px;margin-bottom:14px">${f?avatar(f,64):''}<div class="grow"><small class="muted">Farmer photo</small>${photoTile('farmerPhoto','Add farmer photo','🧑‍🌾',{stamp:false,capture:'user'})}</div></div>
+   <div class="field"><label>Full name *</label><input name="name" value="${esc(f?f.name:'')}" placeholder="Farmer's full name"></div>
+   <div class="grid2"><div class="field"><label>Phone (10 digits) *</label><input name="phone" type="tel" inputmode="numeric" maxlength="14" value="${esc(f?f.phone:'')}" placeholder="9876543210"></div><div class="field"><label>Village / location *</label><input name="village" value="${esc(f?f.village:'')}" placeholder="Village"></div></div>
+   <p class="small muted" style="margin:-4px 0 12px">Name, phone and village are what the farmer must enter to change their password later — keep them accurate.</p>
+   ${passField('pw',f?'New password (leave empty to keep current)':'Password for farmer *',f?'Leave empty to keep':'Min 4 characters',!f)}
+   ${f?`<div class="field"><label>Status</label><select name="status"><option ${f.status!=='Inactive'?'selected':''}>Active</option><option ${f.status==='Inactive'?'selected':''}>Inactive</option></select></div>`:''}
+   <button class="btn btn-primary btn-block" type="submit">${f?'Save changes':'Add farmer'}</button></form>`);
+}
+function batchFormModal(id){
+  const b=id?batchById(id):null,fs=D().farmers.filter(f=>f.status!=='Inactive'||(b&&b.farmerId===f.id));
+  if(!fs.length){openModal('Add a farmer first',empty('👥','No farmers yet','Add a farmer before placing a batch.')+`<button class="btn btn-primary btn-block" data-act="farmerForm">＋ Add farmer</button>`);return}
+  openModal(b?'Edit batch '+b.id:'New chick batch',`<form data-form="batch" data-id="${b?b.id:''}" novalidate>
+   <div class="field"><label>Farmer *</label><select name="farmerId">${fs.map(f=>`<option value="${f.id}" ${b&&b.farmerId===f.id?'selected':''}>${esc(f.name)} (${esc(f.code)})</option>`).join('')}</select></div>
+   <div class="field"><label>Batch name</label><input name="name" value="${esc(b?b.name:'')}" placeholder="e.g. October Batch S"></div>
+   <div class="grid2"><div class="field"><label>Placement date *</label><input name="startDate" type="date" value="${b?b.startDate:D().today}"></div><div class="field"><label>Chicks placed *</label><input name="initial" type="number" inputmode="numeric" min="1" value="${b?b.initial:''}" placeholder="5000"></div></div>
+   <div class="field"><label>Breed</label><select name="breed">${['Broiler','Layer'].map(x=>`<option ${b&&b.breed===x?'selected':''}>${x}</option>`).join('')}</select></div>
+   <div class="field"><label>Notes</label><textarea name="notes" placeholder="Shed, hatchery, remarks">${esc(b?b.notes:'')}</textarea></div>
+   <button class="btn btn-primary btn-block" type="submit">${b?'Save batch':'Create batch'}</button></form>`);
+}
+function loadFormModal(id){
+  const b=batchById(id);if(!b)return;
+  openModal('Record loading · '+esc(b.id),`<p class="small muted" style="margin-bottom:12px">${esc(b.name)} · <b>${fmt(live(b))}</b> live birds available</p><form data-form="load" data-id="${b.id}" novalidate>
+   <div class="grid2"><div class="field"><label>Date</label><input name="date" type="date" value="${D().today}"></div><div class="field"><label>Birds loaded *</label><input name="quantity" type="number" inputmode="numeric" min="1" max="${live(b)}" placeholder="0"></div></div>
+   <div class="grid2"><div class="field"><label>Truck number</label><input name="truckNo" autocapitalize="characters" placeholder="UP32 AB 1234"></div><div class="field"><label>Challan no.</label><input name="challan"></div></div>
+   <div class="grid2"><div class="field"><label>Driver</label><input name="driver"></div><div class="field"><label>Destination</label><input name="destination"></div></div>
+   <div class="field"><label>Notes</label><textarea name="notes"></textarea></div>
+   <button class="btn btn-primary btn-block" type="submit">Save loading entry</button></form>`);
+}
+function assignFormModal(fid){
+  const fs=D().farmers.filter(f=>f.status!=='Inactive');
+  openModal('Assign feed bags',`<form data-form="assign" novalidate><div class="field"><label>Farmer *</label><select name="farmerId" id="asgF">${fs.map(f=>`<option value="${f.id}" ${fid===f.id?'selected':''}>${esc(f.name)} (${esc(f.code)})</option>`).join('')}</select></div>
+   <div class="grid2"><div class="field"><label>Number of bags *</label><input name="qty" type="number" inputmode="numeric" min="1" placeholder="e.g. 50"></div><div class="field"><label>For batch (optional)</label><select name="batchId" id="asgB"></select></div></div>
+   <div class="field"><label>Note (optional)</label><input name="note" placeholder="e.g. sent with truck UP32…"></div>
+   <p class="small muted" style="margin-bottom:12px">The farmer will see this and must <b>accept</b> it after receiving the bags. Only accepted bags count in their stock.</p>
+   <button class="btn btn-primary btn-block" type="submit">Send to farmer</button></form>`);
+  const fill=()=>{const id=$('#asgF').value;$('#asgB').innerHTML='<option value="">— any —</option>'+D().batches.filter(b=>b.farmerId===id&&isActive(b)).map(b=>`<option value="${b.id}">${esc(b.id)} · ${esc(b.name)}</option>`).join('')};
+  fill();$('#asgF').onchange=fill;
+}
+function reqFormModal(){
+  const bs=D().batches.filter(isActive);
+  openModal('Request feed bags',`<form data-form="req" novalidate><div class="grid2"><div class="field"><label>Bags needed *</label><input name="qty" type="number" inputmode="numeric" min="1" placeholder="e.g. 40"></div><div class="field"><label>For batch</label><select name="batchId"><option value="">— any —</option>${bs.map(b=>`<option value="${b.id}">${esc(b.id)} · ${esc(b.name)}</option>`).join('')}</select></div></div>
+   <div class="field"><label>Note for owner (optional)</label><textarea name="note" placeholder="e.g. stock will finish in 2 days"></textarea></div><button class="btn btn-primary btn-block" type="submit">Send request</button></form>`);
+}
+function respReqModal(id,dec){
+  const x=D().bagflow.find(b=>b.id===id),f=farmerById(x.farmerId);
+  openModal(dec==='approve'?'Approve request':'Decline request',`<form data-form="respReq" data-id="${id}" data-d="${dec}" novalidate><p style="margin-bottom:12px"><b>${esc(f.name)}</b> asked for <b>${num(x.qty)}</b> bags.${x.note?' “'+esc(x.note)+'”':''}</p>
+   ${dec==='approve'?`<div class="field"><label>Bags to send</label><input name="qty" type="number" min="1" value="${x.qty}"><div class="hint">You can change the number. The farmer must accept after receiving.</div></div>`:''}
+   <div class="field"><label>${dec==='approve'?'Note (optional)':'Reason (optional)'}</label><input name="note"></div>
+   <button class="btn ${dec==='approve'?'btn-good':'btn-bad'} btn-block" type="submit">${dec==='approve'?'Approve & send':'Decline request'}</button></form>`);
+}
+function resetModal(){openModal('Change / forgot password',`<p class="small muted" style="margin-bottom:12px">Enter the details the owner saved for you. If they all match, you can set a new password.</p>${resetFields('',false)}`)}
+function batchDetailModal(id){
+  const b=batchById(id);if(!b)return;const f=farmerById(b.farmerId);
+  const rs=repsOf(b.id).slice().sort((a,c)=>a.date.localeCompare(c.date)),ds=D().dispatches.filter(d=>d.batchId===b.id).slice().sort((a,c)=>a.date.localeCompare(c.date)),lr=rs[rs.length-1];
+  openModal(esc(b.name),`<div class="row wrap" style="margin-bottom:6px"><span class="chip">${esc(b.id)}</span>${b.status==='Finished'?pill('Finished','neutral'):pill('Active','good')}<small class="muted">${esc(f.name)} · ${esc(b.breed)} · placed ${dateFmt(b.startDate)}</small></div>
+  <div class="kv" style="grid-template-columns:repeat(3,minmax(0,1fr))"><div><span>Placed</span><b>${fmt(b.initial)}</b></div><div><span>Live now</span><b>${fmt(live(b))}</b></div><div><span>Deaths</span><b>${fmt(deaths(b))}</b></div><div><span>Mortality</span><b>${mortPct(b).toFixed(2)}%</b></div><div><span>Feed bags</span><b>${num(feedUsed(b))}</b></div><div><span>Avg weight</span><b>${lr?kg(lr.weight):'—'}</b></div></div>
+  ${batchExtra(b,rs)}<h4 style="margin:16px 0 8px">Daily reports</h4><div class="tblwrap"><table class="tbl"><thead><tr><th>Day</th><th>Date</th><th>Dead</th><th>Feed</th><th>Wt</th></tr></thead><tbody>${rs.slice().reverse().map(r=>`<tr><td>${dayNo(b,r.date)}</td><td>${dateFmt(r.date)}</td><td>${r.deaths}</td><td>${num(r.feedBags)}</td><td>${r.weight.toFixed(2)}</td></tr>`).join('')||'<tr><td colspan="5" class="muted">No reports yet</td></tr>'}</tbody></table></div>
+  <h4 style="margin:16px 0 8px">Loading register (${fmt(loaded(b))} birds)</h4>${ds.length?`<div class="tblwrap"><table class="tbl"><thead><tr><th>Date</th><th>Birds</th><th>Truck</th><th>To</th>${isOwner()?'<th></th>':''}</tr></thead><tbody>${ds.map(x=>`<tr><td>${dateFmt(x.date)}</td><td>${fmt(x.quantity)}</td><td>${esc(x.truckNo||'—')}</td><td>${esc(x.destination||'—')}</td>${isOwner()?`<td><button class="btn btn-bad btn-sm" data-act="delLoad" data-id="${x.id}">✕</button></td>`:''}</tr>`).join('')}</tbody></table></div>`:'<p class="small muted">No loading entries yet.</p>'}
+  <button class="btn btn-soft btn-block" style="margin-top:16px" data-act="printBatch" data-id="${b.id}">🖨 Print / Save full statement (PDF)</button>`,true);
+}
+
+/* ============================================================
+   FORM HANDLERS
+   ============================================================ */
+const FORMS={
+  async login(f){
+    const id=$('#lid').value.trim(),pw=$('#lpw').value;if(!id||!pw){$('#loginErr').textContent='Enter your ID and password.';return}
+    $('#loginErr').textContent='';const btn=$('#loginBtn');btn.disabled=true;
+    try{const j=await api('login',{role:S.loginRole,id,password:pw});S.token=j.token;localStorage.setItem('sp_token',j.token);start()}
+    catch(e){$('#loginErr').textContent=e.message}finally{btn.disabled=false}
+  },
+  async reset(f){
+    const v=n=>f.elements[n].value.trim();
+    if(!v('code')||!v('name')||!v('phone')||!v('village'))return toast('Fill in all your details','err');
+    if(v('np').length<4)return toast('New password must be at least 4 characters','err');
+    if(v('np')!==v('np2'))return toast('The two passwords do not match','err');
+    const j=await api('resetPassword',{code:v('code'),name:v('name'),phone:v('phone'),village:v('village'),newPassword:v('np')});
+    closeModal();f.reset();toast(j.message||'Password changed','ok');
+  },
+  async ownerPw(f){const v=n=>f.elements[n].value;if(v('newPw').length<6)return toast('New password must be at least 6 characters','err');if(v('newPw')!==v('newPw2'))return toast('The two new passwords do not match','err');await api('changeOwnerPassword',{oldPassword:v('oldPw'),newPassword:v('newPw')});f.reset();toast('Password updated','ok')},
+  async farmer(f){
+    const v=n=>f.elements[n]?f.elements[n].value.trim():'',id=f.dataset.id;
+    if(!v('name'))return toast('Enter the farmer name','err');
+    if(normPhone(v('phone')).length!==10)return toast('Enter a valid 10-digit phone number','err');
+    if(!v('village'))return toast('Enter the village / location','err');
+    if(!id&&v('pw').length<4)return toast('Set a password of at least 4 characters','err');
+    if(id&&v('pw')&&v('pw').length<4)return toast('Password must be at least 4 characters','err');
+    const pw=v('pw'),phone=normPhone(v('phone'));
+    await api('saveFarmer',{farmer:{id,name:v('name'),phone,village:v('village'),status:v('status')||'Active'},password:pw,photo:PH.farmerPhoto||''});
+    delete PH.farmerPhoto;renderAll();
+    if(!id){const nf=D().farmers.find(x=>normPhone(x.phone)===phone);const site=location.href.split('#')[0].split('?')[0];const msg=`Sunil Poultry login\nSite: ${site}\nFarmer code: ${nf.code}\nPassword: ${pw}\n(You can change the password after login from Profile.)`;const wa=waLink(phone,msg);
+      openModal('Farmer added ✅',`<div class="person" style="margin-bottom:14px">${avatar(nf,56)}<div><strong>${esc(nf.name)}</strong><small>${esc(nf.village)}</small></div></div><div class="kv"><div><span>Farmer code</span><b>${esc(nf.code)}</b></div><div><span>Password</span><b>${esc(pw)}</b></div></div><p class="small muted">Share these with the farmer. They sign in using the code (or phone number) and this password.</p>${wa?`<a class="btn btn-wa btn-block" style="margin-top:12px" href="${wa}" target="_blank" rel="noopener">☏ Send via WhatsApp</a>`:''}<button class="btn btn-ghost btn-block" style="margin-top:10px" data-act="closeModal">Done</button>`)}
+    else{closeModal();toast('Farmer saved','ok')}
+  },
+  async batch(f){
+    const v=n=>f.elements[n].value.trim();if(!(Number(v('initial'))>0))return toast('Enter the number of chicks placed','err');if(!v('startDate'))return toast('Choose the placement date','err');
+    await api('saveBatch',{batch:{id:f.dataset.id,farmerId:v('farmerId'),name:v('name'),startDate:v('startDate'),initial:v('initial'),breed:v('breed'),notes:v('notes')}});
+    closeModal();renderAll();toast('Batch saved','ok');
+  },
+  async load(f){
+    const v=n=>f.elements[n].value.trim();if(!(Number(v('quantity'))>0))return toast('Enter the number of birds loaded','err');
+    await api('saveDispatch',{dispatch:{batchId:f.dataset.id,date:v('date'),quantity:v('quantity'),truckNo:v('truckNo'),challan:v('challan'),driver:v('driver'),destination:v('destination'),notes:v('notes')}});
+    closeModal();renderAll();toast('Loading entry saved','ok');
+  },
+  async assign(f){const v=n=>f.elements[n].value.trim();if(!(Number(v('qty'))>0))return toast('Enter the number of bags','err');await api('assignBags',{farmerId:v('farmerId'),batchId:v('batchId'),qty:v('qty'),note:v('note')});closeModal();renderAll();toast('Sent to farmer — waiting for acceptance','ok')},
+  async req(f){const v=n=>f.elements[n].value.trim();if(!(Number(v('qty'))>0))return toast('Enter how many bags you need','err');await api('requestBags',{qty:v('qty'),batchId:v('batchId'),note:v('note')});closeModal();renderAll();toast('Request sent to the owner','ok')},
+  async respReq(f){const v=n=>f.elements[n]?f.elements[n].value.trim():'';await api('respondRequest',{id:f.dataset.id,decision:f.dataset.d,qty:v('qty'),note:v('note')});closeModal();renderAll();toast(f.dataset.d==='approve'?'Approved — farmer will confirm receipt':'Request declined','ok')},
+  async report(f){
+    const bid=f.dataset.batch,b=batchById(bid),v=n=>f.elements[n].value.trim();
+    if(v('feed')==='')return toast('Enter feed bags used (0 if none)','err');
+    if(v('dead')==='')return toast('Enter dead chicks (tap “No deaths today” if none)','err');
+    if(!(Number(v('weight'))>0)||Number(v('weight'))>=10)return toast('Enter the average weight of one chick in kg','err');
+    const dead=Number(v('dead'));if(dead>live(b))return toast('Deaths cannot be more than live chicks ('+fmt(live(b))+')','err');
+    if(D().requirePhotos){
+      if(!PH['feed-'+bid])return toast('Add the feed bags photo','err');
+      if(dead>0&&!PH['mort-'+bid])return toast('Add the photo of the dead chicks','err');
+      if(!PH['wt-'+bid])return toast('Add the weight photo','err');
+    }
+    if(!await ask('Submit today\'s report?',`<b>${esc(b.name)}</b><br>Feed bags: <b>${v('feed')}</b> · Dead: <b>${dead}</b> · Weight: <b>${v('weight')} kg</b><br><br>You can submit only once per day for this batch.`,'Submit'))return;
+    await api('submitReport',{report:{batchId:bid,deaths:dead,feedBags:v('feed'),weight:v('weight'),notes:v('notes'),photoFeed:PH['feed-'+bid]||'',photoMortality:dead>0?(PH['mort-'+bid]||''):'',photoWeight:PH['wt-'+bid]||''}});
+    ['feed-','mort-','wt-'].forEach(p=>delete PH[p+bid]);renderAll();window.scrollTo(0,0);toast('Report submitted ✅','ok');
+  }
+};
+
+/* ============================================================
+   ACTIONS (click delegation)
+   ============================================================ */
+const A={
+  go:el=>go(el.dataset.p),
+  openDrawer,closeDrawer,closeModal,
+  logout:()=>logout(),
+  refresh:()=>refresh(),
+  loginRole:el=>{S.loginRole=el.dataset.role;document.querySelectorAll('.seg button').forEach(b=>b.classList.toggle('on',b===el));const fm=S.loginRole==='farmer';$('#lidLabel').textContent=fm?'Farmer code or phone number':'Owner ID';$('#lid').placeholder=fm?'e.g. F3 or 9876543210':'owner';$('#farmerLinks').classList.toggle('hidden',!fm);$('#loginErr').textContent=''},
+  togglePw:el=>{const i=document.getElementById(el.dataset.t);i.type=i.type==='password'?'text':'password'},
+  openReset:resetModal,
+  step:el=>{const i=document.getElementById(el.dataset.t);let v=Number(i.value||0)+Number(el.dataset.d);if(v<0)v=0;i.value=Math.round(v*100)/100},
+  zero:el=>{document.getElementById(el.dataset.t).value=0},
+  viewPhoto:el=>{const id=el.dataset.id;openModal('Photo',`<div class="lightbox"><img src="${esc(photoSrc(id,1400))}" alt="Report photo"></div>${/^[\w-]{20,}$/.test(id)?`<a class="btn btn-ghost btn-block" style="margin-top:12px" target="_blank" rel="noopener" href="https://drive.google.com/file/d/${esc(id)}/view">Open full size</a>`:''}`)},
+  farmerForm:el=>farmerFormModal(el.dataset.id),
+  batchForm:el=>batchFormModal(el.dataset.id),
+  loadForm:el=>loadFormModal(el.dataset.id),
+  assignForm:el=>assignFormModal(el.dataset.id),
+  reqForm:reqFormModal,
+  batchDetail:el=>batchDetailModal(el.dataset.id),
+  clearF:el=>{el.dataset.keys.split(',').forEach(k=>S[k]='');S.more={};renderPage()},
+  moreLd:()=>{S.more.ld=(S.more.ld||30)+30;renderPage()},
+  farmerDetail:el=>farmerDetailModal(el.dataset.id),
+  exportLoad:()=>{const rows=[['Date','Farmer','Code','Batch','Birds','Truck','Challan','Driver','Destination']];ldList().slice().reverse().forEach(x=>{const f=farmerById(x.b.farmerId);rows.push([x.date,f.name,f.code,x.batchId,x.quantity,x.truckNo,x.challan,x.driver,x.destination])});dlCsv('loading-register.csv',rows)},
+  loadPick:()=>{const a=D().batches.filter(isActive);openModal('Record loading',a.length?`<p class="small muted" style="margin-bottom:10px">Choose the batch:</p><div style="display:grid;gap:8px">${a.map(b=>`<button class="btn btn-ghost" style="justify-content:space-between" data-act="loadForm" data-id="${b.id}"><span>${esc(b.id)} · ${esc(farmerById(b.farmerId).name)}</span><small class="muted">${fmt(live(b))} live</small></button>`).join('')}</div>`:'<p>No active batches.</p>')},
+  batTab:el=>{S.bat=el.dataset.t;renderPage()},
+  repTab:el=>{S.rep=el.dataset.t;S.more.rep=0;renderPage()},
+  moreRep:()=>{S.more.rep=(S.more.rep||(isOwner()?40:20))+40;renderPage()},
+  moreLed:()=>{S.more.led=(S.more.led||20)+30;renderPage()},
+  batchStatus:async el=>{const fin=el.dataset.s==='Finished';if(!await ask(fin?'Finish this batch?':'Reopen this batch?',fin?'The farmer will no longer be asked for daily reports for it.':'Daily reports will be required again.',fin?'Finish batch':'Reopen'))return;await api('setBatchStatus',{id:el.dataset.id,status:el.dataset.s});renderAll();toast(fin?'Batch finished':'Batch reopened','ok')},
+  delReport:async el=>{if(!await ask('Allow re-entry?','This deletes the submitted report so the farmer can submit it again today. Photos stay in Drive.','Delete report'))return;await api('deleteReport',{id:el.dataset.id});renderAll();toast('Report removed — farmer can submit again','ok')},
+  delLoad:async el=>{if(!await ask('Delete loading entry?','This cannot be undone.','Delete'))return;await api('deleteDispatch',{id:el.dataset.id});closeModal();renderAll();toast('Entry deleted','ok')},
+  respReq:el=>respReqModal(el.dataset.id,el.dataset.d),
+  respAsg:async el=>{const acc=el.dataset.d==='accept';if(!await ask(acc?'Accept these bags?':'Mark as not received?',acc?'Confirm the bags have reached you. They will be added to your stock.':'The owner will be told you did not receive these bags.',acc?'Yes, accept':'Not received'))return;await api('respondAssignment',{id:el.dataset.id,decision:el.dataset.d});renderAll();toast(acc?'Bags added to your stock ✅':'Marked as not received','ok')},
+  cancelBags:async el=>{if(!await ask('Cancel this?','The entry will be marked cancelled.','Cancel entry'))return;await api('cancelBags',{id:el.dataset.id});renderAll();toast('Cancelled','ok')},
+  exportCsv:()=>{const rows=[['Date','Farmer','Code','Batch','Dead','Feed bags','Avg weight kg','Notes']];D().reports.slice().sort((a,b)=>a.date.localeCompare(b.date)).forEach(r=>{const f=farmerById(r.farmerId);rows.push([r.date,f.name,f.code,r.batchId,r.deaths,r.feedBags,r.weight,r.notes])});const csv=rows.map(r=>r.map(c=>'"'+String(c??'').replace(/"/g,'""')+'"').join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv'}));a.download='sunil-poultry-reports-'+D().today+'.csv';a.click()},
+  printBatch:el=>{
+    const b=batchById(el.dataset.id),f=farmerById(b.farmerId),rs=repsOf(b.id).slice().sort((a,c)=>a.date.localeCompare(c.date)),ds=D().dispatches.filter(d=>d.batchId===b.id).sort((a,c)=>a.date.localeCompare(c.date)),lr=rs[rs.length-1];
+    const w=window.open('','_blank');if(!w)return toast('Allow pop-ups to print the statement','err');
+    w.document.write(`<!doctype html><html><head><meta charset="utf-8"><title>Batch statement ${esc(b.id)}</title><style>body{font-family:Arial,sans-serif;color:#102b3a;padding:26px;font-size:13px}h1{margin:0 0 4px}table{border-collapse:collapse;width:100%;margin:8px 0 18px}th,td{border:1px solid #c9d8e0;padding:6px 8px;text-align:left}th{background:#eaf3f8}.g{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}.g div{border:1px solid #c9d8e0;padding:8px;border-radius:6px}.g span{display:block;font-size:11px;color:#5b7280}.sig{display:flex;justify-content:space-between;margin-top:60px}.sig div{border-top:1px solid #333;padding-top:6px;width:30%;text-align:center}</style></head><body><h1>Sunil Poultry — Batch statement</h1><div>${esc(b.id)} · ${esc(b.name)} · ${esc(b.breed)} · ${b.status==='Finished'?'Finished '+dateFmt(b.completedAt):'Active'}</div><div>Farmer: <b>${esc(f.name)}</b> (${esc(f.code)}) · ${esc(f.village)} · ${esc(f.phone)} · Placed: ${dateFmt(b.startDate)}</div><div class="g"><div><span>Chicks placed</span><b>${fmt(b.initial)}</b></div><div><span>Total deaths</span><b>${fmt(deaths(b))} (${mortPct(b).toFixed(2)}%)</b></div><div><span>Loaded out</span><b>${fmt(loaded(b))}</b></div><div><span>Live balance</span><b>${fmt(live(b))}</b></div><div><span>Feed bags used</span><b>${num(feedUsed(b))}</b></div><div><span>Latest avg weight</span><b>${lr?kg(lr.weight):'—'}</b></div></div><h3>Daily reports</h3><table><tr><th>Day</th><th>Date</th><th>Dead</th><th>Feed bags</th><th>Avg weight (kg)</th><th>Notes</th></tr>${rs.map(r=>`<tr><td>${dayNo(b,r.date)}</td><td>${dateFmt(r.date)}</td><td>${r.deaths}</td><td>${num(r.feedBags)}</td><td>${r.weight.toFixed(2)}</td><td>${esc(r.notes)}</td></tr>`).join('')}</table><h3>Loading register</h3><table><tr><th>Date</th><th>Birds</th><th>Truck</th><th>Challan</th><th>Driver</th><th>Destination</th></tr>${ds.map(x=>`<tr><td>${dateFmt(x.date)}</td><td>${fmt(x.quantity)}</td><td>${esc(x.truckNo)}</td><td>${esc(x.challan)}</td><td>${esc(x.driver)}</td><td>${esc(x.destination)}</td></tr>`).join('')||'<tr><td colspan="6">No loading entries</td></tr>'}</table><div class="sig"><div>Farmer signature</div><div>Owner signature</div><div>Date</div></div></body></html>`);
+    w.document.close();setTimeout(()=>w.print(),400);
+  }
+};
+document.addEventListener('click',e=>{
+  const el=e.target.closest('[data-act]');if(!el)return;
+  const fn=A[el.dataset.act];if(!fn)return;
+  if(el.tagName==='A')return;
+  const r=fn(el);if(r&&r.then)run(()=>r,el.tagName==='BUTTON'?el:null)
+});
+document.addEventListener('submit',e=>{
+  const f=e.target.closest('form[data-form]');if(!f)return;e.preventDefault();
+  const btn=f.querySelector('button[type=submit]');run(()=>FORMS[f.dataset.form](f),btn);
+});
+document.addEventListener('input',e=>{const i=e.target;if(!i.matches||!i.matches('input[type=search][data-chg]'))return;const k=i.dataset.chg,pos=i.selectionStart;S[k]=i.value;S.more={};renderPage();const n=document.querySelector('input[data-chg="'+k+'"]');if(n){n.focus();try{n.setSelectionRange(pos,pos)}catch(_){}}});
+document.addEventListener('change',async e=>{
+  const i=e.target;
+  if(i.matches('[data-chg]')&&i.type!=='search'){S[i.dataset.chg]=i.value;S.more={};if(/Farmer$/.test(i.dataset.chg))S.ldBatch=S.repBatch='';renderPage();return}
+  if(!i.matches('.ptile input[type=file]'))return;
+  const tile=i.closest('.ptile'),file=i.files&&i.files[0];if(!file)return;
+  try{const url=await compress(file,{stamp:tile.dataset.stamp==='1',max:tile.dataset.key==='farmerPhoto'?640:1280});PH[tile.dataset.key]=url;tile.classList.add('done');tile.querySelector('.ptile-prev').innerHTML=`<img src="${url}" alt="Selected photo">`}
+  catch(err){toast(err.message,'err')}
+  i.value='';
+});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();closeDrawer()}});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&D()&&Date.now()-S.last>90000)refresh(true).catch(()=>{})});
+
+/* ---------- boot ---------- */
+(async function boot(){
+  if(CONFIG.API_URL.includes('PASTE'))$('#setupNotice').classList.remove('hidden');
+  if(S.token&&!CONFIG.API_URL.includes('PASTE')){
+    try{await api('getData');start();return}catch(e){S.token='';localStorage.removeItem('sp_token')}
+  }
+  $('#login').classList.remove('hidden');
+})();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
